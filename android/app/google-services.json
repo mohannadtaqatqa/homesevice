@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "975253296259",
+    "project_id": "home-services-applicatio-aefce",
+    "storage_bucket": "home-services-applicatio-aefce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975253296259:android:401f03111ad34ee241b7b6",
+        "android_client_info": {
+          "package_name": "com.home.homeservice"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfGYhzZsTwUIgDLyWEaw5miZcAotk8VgQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
