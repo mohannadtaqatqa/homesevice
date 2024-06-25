@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resource>
+
+<string name="app_name">Manzle</string>
+<string name="facebook_app_id">1000226431025396</string>
+<string name="fb_login_protocol_scheme">fb1000226431025396</string>
+
+
+</resource>
