@@ -14,7 +14,7 @@ import 'package:homeservice/view/screen/onnordingscreen.dart';
 import 'package:homeservice/view/screen/reservation_provider.dart';
 import 'package:homeservice/view/screen/settings_app.dart';
 import 'package:homeservice/view/screen/welcome.dart';
-import 'package:homeservice/view/widgit/Service.dart';
+import 'package:homeservice/view/widgit/service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'helper/binding.dart';
 import 'view/screen/Spalsh_screen.dart';
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/Archives', page: () => const Archives()),
         GetPage(name: '/account', page: () => const Account()),
         GetPage(name: "/reservation", page: () => const reservation_provider()),
-        GetPage(name: "/home", page: () => const Home_Page()),
+        GetPage(name: "/home", page: () => const HomePage()),
         GetPage(name: "/HomePageProvider", page: () => const HomePageProvider()),
         GetPage(name: "/service", page: () => const Service()),
         // GetPage(name: "/mysetting", page:()=> const Mysetting())

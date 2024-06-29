@@ -5,7 +5,7 @@ import 'package:homeservice/view/widgit/appointment.dart'; // Assuming 'appointm
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/utilti/Color.dart';
+import '../../core/utilti/color.dart';
 import '../../generated/l10n.dart'; // Use http for brevity
 
 String? userId;
@@ -22,7 +22,6 @@ class AppointmentPage extends StatelessWidget {
           .get(Uri.parse('http://10.0.2.2:5000/appointment/user/$userId'));
       if (response.statusCode == 200) {
         final List resBody = jsonDecode(response.body);
-        print("========>$resBody");
         return resBody.cast<Map<String, dynamic>>();
       } else {
         throw Exception('Failed to fetch appointments: ${response.statusCode}');
@@ -82,7 +81,8 @@ class AppointmentPage extends StatelessWidget {
               final appointments = snapshot.data!;
               return ListView.builder(
                 itemCount: appointments.length,
-                itemBuilder: (context, index) => Appointment(
+                itemBuilder: (context, index) {
+                  return Appointment(
                   customerId: "$userId",
                   providerId: appointments[index]['provider_id'].toString() ,
                   fname: appointments[index]['provider_fname'],
@@ -90,11 +90,12 @@ class AppointmentPage extends StatelessWidget {
                   city: appointments[index]['city'],
                   address: appointments[index]['address'],
                   des: appointments[index]['description'],
-                  date: DateTime.tryParse(appointments[index]['date'])!  ,
+                  date: DateTime.tryParse(appointments[index]['date'])!.add(const Duration(days: 1)) ,
                   phone: appointments[index]['provider_phone'],
                   servname: appointments[index]['servcie_name'],
                   userType: userType!,
-                ),
+                );
+                },
               );
             }
 
@@ -107,8 +108,7 @@ class AppointmentPage extends StatelessWidget {
                     height: 200,
                   ),
                   const SizedBox(height: 20),
-                  Text(S.of(context).noappointment,
-                      style: Theme.of(context).textTheme.headline6),
+                  Text(S.of(context).noappointment,),
                 ],
               ),
             );

@@ -1,21 +1,20 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:homeservice/core/function/DateUtil.dart';
+import 'package:homeservice/core/function/date_util.dart';
 import 'package:homeservice/core/function/controller_datepicker.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/data/model/details_provider.dart';
 import 'package:homeservice/view/screen/buttom_bar.dart';
-import 'package:homeservice/view/screen/home.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/function/snakbar.dart';
+import '../../generated/l10n.dart';
 
 class Datepicker extends StatefulWidget {
-  Datepicker(
+  const Datepicker(
       {super.key,
       // required this.selectedDateController,
       required detailsp this.data,
@@ -28,27 +27,28 @@ class Datepicker extends StatefulWidget {
 }
 
 class _DatepickerState extends State<Datepicker> {
-  final DescriptionController = TextEditingController();
+  final descriptionController = TextEditingController();
   final selectedDateController = TextEditingController();
   DateTime? dateValue;
 
   Future<void> _booking() async {
-    final String description = DescriptionController.text.trim();
+    final String description = descriptionController.text.trim();
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? id = prefs.getString("userId");
-    // print(id);
-    // print(description);
-    // print(widget.serviceID);
-    // print(selectedDateController.text);
-    // print(DateUtil.formatDate(selectedDateController.text));
-    // print(widget.data.id);
+    // //print(id);
+    // //print(description);
+    // //print(widget.serviceID);
+    // //print(selectedDateController.text);
+    // //print(DateUtil.formatDate(selectedDateController.text));
+    // //print(widget.data.id);
     if (selectedDateController.text == '' ||
         selectedDateController.text == "0000-00-00 00:00:00.000") {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('يرجى اختيار تاريخ الحجز',
-            style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.red,
-      ));
+          Snackbar( message: S.current.selectDate, context: context, backgroundColor: Colors.red , textColor: Colors.white) ;
+      // ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+      //   content: Text(S.current.selectDate,
+      //       style:const TextStyle(color: Colors.white)),
+      //   backgroundColor: Colors.red,
+      // ));
     } else {
       try {
         await post(Uri.parse('http://10.0.2.2:5000/booking'),
@@ -63,14 +63,13 @@ class _DatepickerState extends State<Datepicker> {
               "description": description
             }));
       } catch (e) {
-        print('Error: $e');
         Snackbar(message: e.toString(), context: context);
         // ScaffoldMessenger.of(context).showSnackBar(
         //     const SnackBar(content: Text('Error occurred, please try again.')));
       }
       Get.off( const Navbar());
       Snackbar(
-          message: "تم طلب حجز الخدمة 📩",
+          message: S.current.newrequest,
           context: context,
           backgroundColor: whiteColor,
           textColor: blackColor);
@@ -94,14 +93,14 @@ class _DatepickerState extends State<Datepicker> {
             context: context,
             builder: (BuildContext context) => AlertDialog(
               title: Text(
-                'اختر تاريخ الحجز',
-                style: TextStyle(
+                S.current.selectdate,
+                style: const TextStyle(
                   fontFamily: 'Cairo',
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              content: Container(
+              content: SizedBox(
                 height: 250,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -110,7 +109,7 @@ class _DatepickerState extends State<Datepicker> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.calendar_today),
+                          icon: const Icon(Icons.calendar_today),
                           onPressed: () async {
                             final DateTime now = DateTime.now();
                             final DateTime firstDate =
@@ -126,21 +125,19 @@ class _DatepickerState extends State<Datepicker> {
                             );
 
                             if (datepicker != null) {
-                              Get.find<updatedate>().changeDate("$datepicker");
+                              Get.find<Updatedate>().changeDate("$datepicker");
                               selectedDateController.text = ("$datepicker");
                             }
-                            print(" date is ${selectedDateController.text}");
-                            print("${dateValue}");
                           },
                         ),
                         GetBuilder(
-                          init: updatedate(),
+                          init: Updatedate(),
                           builder: (controller) {
                             return Text(
                               controller.selectedDate.value.isEmpty
-                                  ? "الرجاء تحديد التاريخ"
-                                  : "${DateUtil.formatDate(controller.selectedDate.value)}",
-                              style: TextStyle(
+                                  ? S.of(context).selectDate
+                                  : DateUtil.formatDate(controller.selectedDate.value),
+                              style:const TextStyle(
                                 fontFamily: 'Cairo',
                                 fontSize: 16,
                               ),
@@ -149,14 +146,14 @@ class _DatepickerState extends State<Datepicker> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                  const  SizedBox(height: 20),
                     TextField(
-                      controller: DescriptionController,
+                      controller: descriptionController,
                       maxLines: 2,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         hoverColor: mainColor,
-                        labelText: "وصف",
+                        labelText: S.current.description,
                         labelStyle: TextStyle(
                           fontFamily: 'Cairo',
                           fontSize: 16,
@@ -179,8 +176,8 @@ class _DatepickerState extends State<Datepicker> {
                 TextButton(
                   onPressed: () => Navigator.pop(context, 'الغاء'),
                   child: Text(
-                    'إلغاء',
-                    style: TextStyle(
+                    S.of(context).cancel,
+                    style: const TextStyle(
                       fontFamily: 'Cairo',
                       fontSize: 16,
                       color: Colors.black,
@@ -193,8 +190,8 @@ class _DatepickerState extends State<Datepicker> {
                   ),
                   onPressed: _booking,
                   child: Text(
-                    'حجز',
-                    style: TextStyle(
+                    S.of(context).reservation,
+                    style: const TextStyle(
                       fontFamily: 'Cairo',
                       fontSize: 16,
                       color: Colors.white,

@@ -35,7 +35,6 @@ class _AccountState extends State<Account> {
   final UserController userController = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
-  print(userController.userFirstName);
     return Scaffold(
         body: Container(
       width: double.infinity,
@@ -69,8 +68,8 @@ class _AccountState extends State<Account> {
                 const SizedBox(
                   width: 25,
                 ),
-                const Text("الوضع الليلي",
-                    style: TextStyle(
+                 Text(S.of(context).naightMode,
+                    style:const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Cairo')),
@@ -101,9 +100,9 @@ class _AccountState extends State<Account> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "  عام",
-                      style: TextStyle(
+                     Text(
+                      S.of(context).General,
+                      style:const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Cairo'),
@@ -131,11 +130,11 @@ class _AccountState extends State<Account> {
                             const SizedBox(
                               width: 25,
                             ),
-                            const Column(
+                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("اعدادات الحساب",
-                                    style: TextStyle(
+                                Text(S.of(context).Settingsaccount,
+                                    style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Cairo')),
@@ -150,7 +149,7 @@ class _AccountState extends State<Account> {
                     const SizedBox(
                       height: 22,
                     ),
-                    InkWell(
+                  userController.userType == "1"?    InkWell(
                       onTap: () {
                         Get.to(() => const RatingPage());
                       },
@@ -168,7 +167,7 @@ class _AccountState extends State<Account> {
                             const SizedBox(
                               width: 25,
                             ),
-                            Text("التقييمات",
+                            Text(S.of(context).raitings,
                                 style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -183,8 +182,9 @@ class _AccountState extends State<Account> {
                                 child:
                                     const Icon(Icons.arrow_forward_ios_rounded))
                           ]),
-                    ),
-                    SizedBox(
+                    )
+                    : Container(),
+                  const  SizedBox(
                       height: 22,
                     ),
                     InkWell(
@@ -258,8 +258,8 @@ class _AccountState extends State<Account> {
                             const SizedBox(
                               width: 25,
                             ),
-                            const Text("تسجيل الخروج",
-                                style: TextStyle(
+                            Text(S.of(context).Logout,
+                                style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'Cairo')),

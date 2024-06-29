@@ -1,25 +1,20 @@
 // ignore_for_file: avoid_print
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/data/model/details_provider.dart';
 import 'package:homeservice/view/widgit/datePicker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../generated/l10n.dart';
 
-class provider_details extends StatefulWidget {
-  const provider_details({super.key, this.serviceID});
+class ProviderDetails extends StatefulWidget {
+  const ProviderDetails({super.key, this.serviceID});
   final serviceID;
   @override
-  State<provider_details> createState() => _provider_detailsState();
+  State<ProviderDetails> createState() => _ProviderDetailsState();
 }
 
-class _provider_detailsState extends State<provider_details> {
-  final TextEditingController DescriptionController = TextEditingController();
-  final TextEditingController DateController = TextEditingController();
+class _ProviderDetailsState extends State<ProviderDetails> {
 
   //final id = Get.arguments;
   final data = Get.arguments as detailsp;
@@ -47,7 +42,7 @@ class _provider_detailsState extends State<provider_details> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-      Container(
+      SizedBox(
         height: 200,
         child: Stack(children: [
           Positioned(
@@ -101,7 +96,7 @@ class _provider_detailsState extends State<provider_details> {
                     const SizedBox(
                       width: 15,
                     ),
-                    Text('${data.servicen!}',style: const TextStyle(  fontFamily: 'Cairo',),),
+                    Text(data.servicen!,style: const TextStyle(  fontFamily: 'Cairo',),),
                   ],
                 ),
                 const SizedBox(
@@ -124,18 +119,18 @@ class _provider_detailsState extends State<provider_details> {
                     Text('${data.city!} - ${data.location!}',style: const TextStyle(  fontFamily: 'Cairo',),),
                   ],
                 ),
-                SizedBox(height: 30,),
+                const SizedBox(height: 30,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 15, 
                         ),Icon(
                           color: mainColor,
                             Icons.rate_review_outlined,
                             size: 30,
                           ),
-                        SizedBox(
+                        const SizedBox(
                           width: 15,
                         ),
                         Text('${data.rating}',style: const TextStyle(  fontFamily: 'Cairo',),)
@@ -158,7 +153,7 @@ class _provider_detailsState extends State<provider_details> {
                     const SizedBox(
                       width: 15,
                     ),
-                    Text("${data.phone!}",style: const TextStyle(  fontFamily: 'Cairo',),),
+                    Text(data.phone!,style: const TextStyle(  fontFamily: 'Cairo',),),
                   ],
                 ),
                 const SizedBox(
@@ -179,7 +174,7 @@ class _provider_detailsState extends State<provider_details> {
                       child: Image.asset(
                         "images/whatsConcat.png",
                         
-                        color: Color.fromARGB(255, 84, 247, 89),
+                        color: const Color.fromARGB(255, 84, 247, 89),
                         fit: BoxFit.cover,
                       ),
                     ),

@@ -14,7 +14,7 @@
 //     defultsize=orientation==Orientation.landscape
 //     ? screenhight! *.7
 //         :screenwidth!*.7;
-//     print('this is defult size:$defultsize');
+//     //print('this is defult size:$defultsize');
 
 //   }
 //  }
@@ -34,7 +34,7 @@ class SizeConfig{
     defultsize=orientation==Orientation.landscape
     ? screenhight! *.048
         :screenwidth!*.048;
-    print('this is defult size:$defultsize');
+    //print('this is defult size:$defultsize');
 
   }
  }

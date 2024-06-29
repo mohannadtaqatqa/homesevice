@@ -9,7 +9,7 @@ import 'package:homeservice/core/utilti/size_config.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/utilti/Color.dart';
+import '../../core/utilti/color.dart';
 import '../../generated/l10n.dart';
 
 class Mysetting extends StatefulWidget {
@@ -83,7 +83,7 @@ class _MysettingState extends State<Mysetting> {
                     "address": cityController.text,
                     "userType": userController.userType.toString(),
                   }));
-                  print("${firstNameController.text} ${lastNameController.text} ${phoneNumberController.text} ${cityController.text} ${addressController.text} id ${userController.id} type ${userController.userType}");
+                  //print("${firstNameController.text} ${lastNameController.text} ${phoneNumberController.text} ${cityController.text} ${addressController.text} id ${userController.id} type ${userController.userType}");
   }
 
   @override
@@ -99,7 +99,7 @@ class _MysettingState extends State<Mysetting> {
           child: Column(
             children: [
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                Text("الصورة"),
+                Text(S.of(context).image),
                 Column(
                   children: [
                     Icon(
@@ -107,7 +107,7 @@ class _MysettingState extends State<Mysetting> {
                       size: 100,
                       color: greyColor,
                     ),
-                    TextButton(onPressed: () {}, child: Text("تحميل صورة"))
+                    TextButton(onPressed: () {}, child: Text(S.of(context).loadImage))
                   ],
                 ),
               ]),
@@ -257,7 +257,7 @@ class _MysettingState extends State<Mysetting> {
                   foregroundColor: MaterialStateProperty.all(whiteColor),
                   fixedSize: MaterialStateProperty.all(const Size(200, 50)),),
                   onPressed: saveDataSharedPreferences,
-                  child: Text("حفظ التغييرات",style: TextStyle(fontSize: SizeConfig.defultsize),),),
+                  child: Text(S.of(context).saveChange,style: TextStyle(fontSize: SizeConfig.defultsize),),),
                   
             ],
           ),

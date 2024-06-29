@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class updatedate extends GetxController {
+class Updatedate extends GetxController {
   RxString selectedDate = ''.obs;
 
   void changeDate(String date) {

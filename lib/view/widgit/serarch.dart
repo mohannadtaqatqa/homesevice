@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 
 class Search extends StatelessWidget {
    Search({super.key});

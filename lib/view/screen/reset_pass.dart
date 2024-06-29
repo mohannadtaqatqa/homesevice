@@ -2,15 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:homeservice/core/function/snakbar.dart';
 import 'package:homeservice/core/function/user_controller.dart';
 import 'package:homeservice/view/screen/login.dart';
 import 'package:http/http.dart';
-import '../../core/utilti/Color.dart';
+import '../../core/utilti/color.dart';
 import '../../generated/l10n.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({super.key});
-
 
   @override
   State<ResetPassword> createState() => _ResetPasswordState();
@@ -74,7 +74,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                           fontFamily: 'Cairo',
                           fontSize: 13)),
                 ),
-                validator: (value) {},
+                validator: (value) {
+                  return null;
+                },
               ),
             ),
             Container(
@@ -103,21 +105,17 @@ class _ResetPasswordState extends State<ResetPassword> {
                           fontFamily: 'Cairo',
                           fontSize: 13)),
                 ),
-                validator: (value) {
-                  controllerNewPass.text == value
-                      ? null
-                      : "Passwords don't match";
-                  return null;
-                },
               ),
             ),
-            const SizedBox(height: 22,),
+            const SizedBox(
+              height: 22,
+            ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                foregroundColor: whiteColor ,
-                backgroundColor: mainColor ,
-                textStyle: const TextStyle( fontSize: 20, fontFamily: 'Cairo'),
-              ),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: whiteColor,
+                  backgroundColor: mainColor,
+                  textStyle: const TextStyle(fontSize: 20, fontFamily: 'Cairo'),
+                ),
                 onPressed: () async {
                   try {
                     final response = await post(
@@ -129,37 +127,20 @@ class _ResetPasswordState extends State<ResetPassword> {
                           "email": userController.userEmail.value,
                           "password": controllerNewPass.text
                         }));
-                    print(response.statusCode);
                     if (response.statusCode == 404) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text(
-                          "يجب ادخال رمز صالح",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        backgroundColor: Colors.red,
-                      ));
+                      Snackbar(message: S.current.errorCode, context: context,textColor: whiteColor,backgroundColor: Colors.red);
                     }
                     if (response.statusCode == 200) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("تم تغيير كلمة المرور بنجاح",
-                            style: TextStyle(color: Colors.white)),
-                        backgroundColor: Colors.green,
-                      ));
+                      Snackbar(message: S.current.changePassSuccess, context: context,textColor: whiteColor,backgroundColor: Colors.green);
                       Get.to(() => const login());
                     } else {
                       final Map<String, dynamic> responseData =
                           json.decode(response.body);
                       final String errorMessage = responseData['error'];
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(
-                          errorMessage,
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                        backgroundColor: Colors.red,
-                      ));
+                      Snackbar(message: errorMessage, context: context,textColor: whiteColor,backgroundColor: Colors.red);
                     }
                   } catch (e) {
-                    print(e);
+                    Snackbar(message: S.current.errorOccured, context: context,textColor: whiteColor,backgroundColor: Colors.red);
                   }
                 },
                 child: Text(S.of(context).confirm))

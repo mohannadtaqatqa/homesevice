@@ -1,7 +1,7 @@
 
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 class CostomIndicator extends StatelessWidget {
   const CostomIndicator({super.key, required this.dotsindex});
 final double? dotsindex ;

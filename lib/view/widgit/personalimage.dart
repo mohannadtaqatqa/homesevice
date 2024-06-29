@@ -8,7 +8,7 @@ final String image ;
     return Center(
       child: CircleAvatar(
       backgroundColor: Colors.black26,
-        backgroundImage: AssetImage('${image}') ,
+        backgroundImage: AssetImage(image) ,
         radius: 60,
       ),
     );

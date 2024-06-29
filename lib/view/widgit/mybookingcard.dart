@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:homeservice/core/function/DateUtil.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/function/date_util.dart';
+import 'package:homeservice/core/function/snakbar.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:http/http.dart';
 
 import '../../generated/l10n.dart';
@@ -42,10 +43,12 @@ class _cardBokingState extends State<cardBoking> {
   Future<void> _accept(requestid) async {
   final res =  await post(Uri.parse('http://10.0.2.2:5000/approverequest/$requestid'));
     if(res.statusCode == 200){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("تم حجز الخدمة بنجاح"), backgroundColor: Colors.green,));
+      Snackbar( message: S.current.bookingSuccess, context: context, backgroundColor: Colors.green , textColor: Colors.white) ;
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(S.current.bookingSuccess), backgroundColor: Colors.green,));
     }
     else if(res.statusCode == 400){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("لقد تم حجز الخدمة بالفعل من قبل مستخدم اخر الرجاء اعادة حجز موعد"), backgroundColor: Colors.red,));
+      Snackbar( message: S.current.alreadyBooking, context: context, backgroundColor: Colors.red , textColor: Colors.white) ;
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(S.current.alreadyBooking), backgroundColor: Colors.red,));
     }
   }
 
@@ -84,7 +87,7 @@ class _cardBokingState extends State<cardBoking> {
               const SizedBox(
                 height: 8,
               ),
-              Text("${widget.phone}",
+              Text(widget.phone,
                   style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -111,8 +114,8 @@ class _cardBokingState extends State<cardBoking> {
                           color: Colors.white.withOpacity(0.5),
                           padding: const EdgeInsets.all(20),
                           child: AlertDialog(
-                            title: const Center(
-                              child: Text('تفاصيل الموعد',style:TextStyle(fontFamily:'Cairo')),
+                            title:  Center(
+                              child: Text(S.of(context).appoindetails,style: const TextStyle(fontFamily:'Cairo')),
                             ),
                             content: SingleChildScrollView(
                               child: Column(
@@ -121,44 +124,44 @@ class _cardBokingState extends State<cardBoking> {
                                 children: <Widget>[
                                   Row(
                                     children: [
-                                      Text("${S.of(context).serviceProvider}:",style:TextStyle(fontFamily:'Cairo',fontWeight: FontWeight.bold)),
+                                      Text("${S.of(context).serviceProvider}:",style:const TextStyle(fontFamily:'Cairo',fontWeight: FontWeight.bold)),
                                       Text(
-                                          '  ${widget.name1} ${widget.name2}',style:TextStyle(fontFamily:'Cairo')),
+                                          '  ${widget.name1} ${widget.name2}',style:const TextStyle(fontFamily:'Cairo')),
                                     ],
                                   ),
                                   Row(
                                     children: [
-                                      Text('${S.of(context).serviceType}:',style:TextStyle(fontFamily:'Cairo',fontWeight: FontWeight.bold)),
-                                      Text(' ${widget.servicename}',style:TextStyle(fontFamily:'Cairo')),
+                                      Text('${S.of(context).serviceType}:',style:const TextStyle(fontFamily:'Cairo',fontWeight: FontWeight.bold)),
+                                      Text(' ${widget.servicename}',style:const TextStyle(fontFamily:'Cairo')),
                                     ],
                                   ),
                                   if (widget.status != 3)
                                     Row(
                                       children: [
-                                        Text('${S.of(context).date}:',style:TextStyle(fontFamily:'Cairo',fontWeight: FontWeight.bold)),
+                                        Text('${S.of(context).date}:',style:const TextStyle(fontFamily:'Cairo',fontWeight: FontWeight.bold)),
                                         Text(
-                                            ' ${DateUtil.formatDate(widget.datereq)}',style:TextStyle(fontFamily:'Cairo')),
-                                      ],
+                                            ' ${DateUtil.formatDate(widget.datereq)}',style:const TextStyle(fontFamily:'Cairo')),
+                                      ], 
                                     ),
                                   Wrap(
                                     children: [
-                                      Text('${S.of(context).description}:',style:TextStyle(fontFamily:'Cairo',fontWeight: FontWeight.bold)),
-                                      Text(' ${widget.descrbtion}',style: TextStyle(fontFamily:'Cairo')),
+                                      Text('${S.of(context).description}:',style:const TextStyle(fontFamily:'Cairo',fontWeight: FontWeight.bold)),
+                                      Text(' ${widget.descrbtion}',style:const TextStyle(fontFamily:'Cairo')),
                                     ],
                                   ),
                                   Row(
                                     children: [
-                                      Text('${S.of(context).address}:',style:TextStyle(fontFamily:'Cairo',fontWeight: FontWeight.bold)),
+                                      Text('${S.of(context).address}:',style:const TextStyle(fontFamily:'Cairo',fontWeight: FontWeight.bold)),
                                       Text(
-                                          ' ${widget.city}-${widget.address} ',style:TextStyle(fontFamily:'Cairo')),
+                                          ' ${widget.city}-${widget.address} ',style:const TextStyle(fontFamily:'Cairo')),
                                     ],
                                   ),
                                   if (widget.status == 3)
                                     Row(
                                       children: [
-                                        Text('التاريخ المقترح: ',style:TextStyle(fontFamily:'Cairo',fontWeight: FontWeight.bold)),
+                                        Text('${S.of(context).Proposeddate}: ',style:const TextStyle(fontFamily:'Cairo',fontWeight: FontWeight.bold)),
                                         Text(
-                                            '${DateUtil.formatDate(widget.newDate)}',style:TextStyle(fontFamily:'Cairo')),
+                                            DateUtil.formatDate(widget.newDate),style :const TextStyle(fontFamily:'Cairo')),
                                       ],
                                     ),
                                 ],
@@ -194,7 +197,7 @@ class _cardBokingState extends State<cardBoking> {
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
-                                child: const Text('اغلاق',style: TextStyle(color: Colors.black,fontFamily: 'Cairo'),),
+                                child: Text(S.of(context).close,style:const TextStyle(color: Colors.black,fontFamily: 'Cairo'),),
                               ),
                             ],
                           ),

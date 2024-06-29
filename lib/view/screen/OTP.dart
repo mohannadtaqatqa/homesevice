@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -11,7 +9,7 @@ import 'package:homeservice/view/screen/reset_pass.dart';
 import 'package:http/http.dart';
 import '../../core/controller.dart';
 import '../../core/function/snakbar.dart';
-import '../../core/utilti/Color.dart';
+import '../../core/utilti/color.dart';
 import '../../generated/l10n.dart';
 
 // class OTP extends StatelessWidget {
@@ -101,7 +99,7 @@ import '../../generated/l10n.dart';
 //                           "verifycode": code,
 //                           "email": email
 //                         }));
-//                     print(response.statusCode);
+//                     //print(response.statusCode);
 //                     if (response.statusCode == 200) {
 //                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
 //                         content: Text('تمت عملية انشاء الحساب',
@@ -113,7 +111,7 @@ import '../../generated/l10n.dart';
 //                       } else if (currentPage == "forgetPassPage") {
 //                         Get.to(() => ResetPassword(email: email,));
 //                       } else {
-//                         print("errorOTp");
+//                         //print("errorOTp");
 //                       }
 //                     } else {
 //                       final Map<String, dynamic> responseData =
@@ -129,7 +127,7 @@ import '../../generated/l10n.dart';
 //                     }
 //                     // Get.to(login());
 //                   } catch (e) {
-//                     print("Error: $e");
+//                     //print("Error: $e");
 //                   }
 
 //                   // var resp = await post(
@@ -138,8 +136,8 @@ import '../../generated/l10n.dart';
 //                   //       "verifycode": code,
 //                   //       "email": "email.toString()"
 //                   //     }));
-//                   // print(resp.body);
-//                   // print("code $code");
+//                   // //print(resp.body);
+//                   // //print("code $code");
 //                 },
 //                 child: const Text(
 //                   "تاكيد",
@@ -152,8 +150,8 @@ import '../../generated/l10n.dart';
 //   }
 // }
 
-class forgetOTP extends StatelessWidget {
-  const forgetOTP({
+class ForgetOTP extends StatelessWidget {
+  const ForgetOTP({
     super.key,
     required this.email,
     required this.currentPage,
@@ -171,43 +169,48 @@ class forgetOTP extends StatelessWidget {
             // mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              
               Image.asset("images/otp.png"),
               Text(S.of(context).enterCode,
                   textAlign: TextAlign.center,
-                  style:
-                      const TextStyle(fontFamily: 'Cairo' ,fontSize: 23, fontWeight: FontWeight.bold)),
+                  style: const TextStyle(
+                      fontFamily: 'Cairo',
+                      fontSize: 23,
+                      fontWeight: FontWeight.bold)),
               Wrap(
                 children: [
                   Text(
                     S.of(context).sendOTP,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 18,fontFamily: 'Cairo'),
+                    style: const TextStyle(fontSize: 18, fontFamily: 'Cairo'),
                   ),
                   Text(
                     email,
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 18,fontFamily: 'Cairo'),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        fontFamily: 'Cairo'),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
               Align(
-                
                 child: Directionality(
                   textDirection: TextDirection.ltr,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     // crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [TextFieldOTP(
+                    children: [
+                      TextFieldOTP(
                         controller: item1,
                         first: true,
                         last: false,
-                      ),TextFieldOTP(
+                      ),
+                      TextFieldOTP(
                         controller: item2,
                         first: false,
                         last: false,
-                      ),  TextFieldOTP(
+                      ),
+                      TextFieldOTP(
                         controller: item3,
                         first: false,
                         last: false,
@@ -217,9 +220,6 @@ class forgetOTP extends StatelessWidget {
                         first: false,
                         last: true,
                       ),
-                    
-                      
-                      
                     ],
                   ),
                 ),
@@ -232,50 +232,59 @@ class forgetOTP extends StatelessWidget {
                       fixedSize: const Size(200, 50)),
                   onPressed: () async {
                     String code = '';
-          
+
                     if (item1.text.isNotEmpty &&
                         item2.text.isNotEmpty &&
                         item3.text.isNotEmpty &&
                         item4.text.isNotEmpty) {
                       code = item1.text + item2.text + item3.text + item4.text;
-          
-                      print(code);
-                      print(currentPage);
+
+                      //print(code);
                     }
                     if (currentPage == 'signup' || currentPage == "LoginPage") {
                       try {
                         final response = await post(
-                            Uri.parse('http://10.0.2.2:5000/signup/verify/email'),
+                            Uri.parse(
+                                'http://10.0.2.2:5000/signup/verify/email'),
                             headers: <String, String>{
                               'Content-Type': 'application/json; charset=UTF-8',
                             },
                             body: jsonEncode(<String, String>{
                               "email": email,
                               "verifycode": code
-          
                             }));
-                        print(response.statusCode);
                         if (response.statusCode == 404) {
-                          Snackbar(message: "يجب ادخال رمز صالح", context: context, backgroundColor: Colors.red,textColor: whiteColor );}
+                          Snackbar(
+                              message: S.current.errorCode,
+                              context: context,
+                              backgroundColor: Colors.red,
+                              textColor: whiteColor);
+                        }
                         if (response.statusCode == 200) {
-                          Snackbar(message: 'تمت عملية تأكيد الحساب', context: context, backgroundColor: Colors.green,textColor: whiteColor );
-                        
-                          Get.to(() => const login());
+                          Snackbar(
+                              message: S.current.verefiyuser,
+                              context: context,
+                              backgroundColor: Colors.green,
+                              textColor: whiteColor);
+
+                          Get.offAll(() => const login());
                         } else {
                           final Map<String, dynamic> responseData =
                               json.decode(response.body);
                           final String errorMessage = responseData['error'];
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                              errorMessage,
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                            backgroundColor: Colors.red,
-                          ));
+                          Snackbar(
+                              message: errorMessage,
+                              context: context,
+                              backgroundColor: Colors.red,
+                              textColor: whiteColor);
                         }
                         // Get.to(login());
                       } catch (e) {
-                        print(e);
+                        Snackbar(
+                            message: S.current.errorOccured,
+                            context: context,
+                            backgroundColor: Colors.red,
+                            textColor: whiteColor);
                       }
                     } else if (currentPage == "confirmationEmail") {
                       try {
@@ -289,48 +298,43 @@ class forgetOTP extends StatelessWidget {
                               "verifycode": code,
                               "email": email
                             }));
-                        print(response.statusCode);
                         if (response.statusCode == 404) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text(
-                              "يجب ادخال رمز صالح",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            backgroundColor: Colors.red,
-                          ));
+                          Snackbar(
+                              message: S.current.errorCode,
+                              context: context,
+                              backgroundColor: Colors.red,
+                              textColor: whiteColor);
                         }
                         if (response.statusCode == 200) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text('تمت عملية انشاء الحساب',
-                                style: TextStyle(color: Colors.white)),
+                          Snackbar(
+                            message: S.current.verefiyuser,
+                            context: context,
                             backgroundColor: Colors.green,
-                          ));
-                          Get.to(() => const ResetPassword() );
+                            textColor: whiteColor,
+                          );
+                          Get.to(() => const ResetPassword());
                         } else {
                           final Map<String, dynamic> responseData =
                               json.decode(response.body);
                           final String errorMessage = responseData['error'];
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                              errorMessage,
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                            backgroundColor: Colors.red,
-                          ));
+                          Snackbar(
+                              message: errorMessage,
+                              context: context,
+                              backgroundColor: Colors.red,
+                              textColor: whiteColor);
                         }
                         // Get.to(login());
                       } catch (e) {
-                        print(e);
+                        Snackbar(
+                            message: e.toString(),
+                            context: context,
+                            backgroundColor: Colors.red,
+                            textColor: whiteColor); //snackbar
                       }
-                    }
-                    else if(currentPage == "changeEmail"){
-          
-                        try {
+                    } else if (currentPage == "changeEmail") {
+                      try {
                         final response = await post(
-                            Uri.parse(
-                                'http://10.0.2.2:5000/change_email'),
+                            Uri.parse('http://10.0.2.2:5000/change_email'),
                             headers: <String, String>{
                               'Content-Type': 'application/json; charset=UTF-8',
                             },
@@ -338,42 +342,44 @@ class forgetOTP extends StatelessWidget {
                               "verifycode": code,
                               "email": email
                             }));
-                        print(response.statusCode);
+                        //print(response.statusCode);
                         if (response.statusCode == 404) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text(
-                              "يجب ادخال رمز صالح",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        Snackbar(
+                            message: S.current.errorOccured,
+                            context: context,
                             backgroundColor: Colors.red,
-                          ));
+                            textColor: whiteColor);
                         }
                         if (response.statusCode == 200) {
-                          Snackbar(message: 'تمت عملية انشاء الحساب', context: context, backgroundColor: Colors.green,textColor: whiteColor );
-                          Get.to(() => const ChangeEmail() );
+                          Snackbar(
+                              message: 'تمت عملية انشاء الحساب',
+                              context: context,
+                              backgroundColor: Colors.green,
+                              textColor: whiteColor);
+                          Get.to(() => const ChangeEmail());
                         } else {
                           final Map<String, dynamic> responseData =
                               json.decode(response.body);
                           final String errorMessage = responseData['error'];
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                              errorMessage,
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                            backgroundColor: Colors.red,
-                          ));
+                          Snackbar(
+                              message: errorMessage,
+                              context: context,
+                              backgroundColor: Colors.red,
+                              textColor: whiteColor);
                         }
                         // Get.to(login());
                       } catch (e) {
-                        print(e);
+                        //print(e);
                       }
-          
                     }
                   },
-                  child:  Text(
+                  child: Text(
                     S.of(context).confirm,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold,fontFamily: 'Cairo',color: Colors.white),
+                    style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Cairo',
+                        color: Colors.white),
                   )),
             ],
           ),

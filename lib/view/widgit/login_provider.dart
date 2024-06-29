@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:homeservice/core/function/fcm_config.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/function/snakbar.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/view/screen/home.dart';
 import 'package:homeservice/view/screen/check_email.dart';
 import 'package:homeservice/view/screen/navbar_provider.dart';
@@ -34,12 +35,12 @@ import '../../generated/l10n.dart';
 // Future<void> check() async {
 //   final SharedPreferences pref = await SharedPreferences.getInstance();
 //   bool isloggedIn = pref.getBool("LoggedIn") ?? false;
-//   print(isloggedIn);
+//   //print(isloggedIn);
 //   if (isloggedIn) {
 //     Navigator.pushReplacement(
 //         context, MaterialPageRoute(builder: (ctx) => Appointement()));
 //   }
-//   print(isloggedIn);
+//   //print(isloggedIn);
 
 // }
 class LoggedIn extends StatefulWidget {
@@ -62,10 +63,11 @@ class _LoggedInState extends State<LoggedIn> {
     final isLoggedIn = await storage.read(key: 'isLoggedIn') == 'true';
     if (isLoggedIn) {
       // Navigate to Home screen or perform actions based on logged-in user
-      Get.to(() => const Home_Page());
+      Get.to(() => const HomePage());
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return const Welcome();
   }
@@ -96,7 +98,7 @@ class _loginState extends State<login_provider> {
         },
         body: jsonEncode(<String, String>{"email": email, "password": pass}),
       );
-      print(response.statusCode);
+      //print(response.statusCode);
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
         final String userEmail = responseData['provider']['email'].toString();
@@ -107,7 +109,7 @@ class _loginState extends State<login_provider> {
             responseData['provider']['countRequest'].toString();
         final String rating = responseData['provider']['rating'].toString();
         final prefs = await SharedPreferences.getInstance();
-        print("provider id => ${userId}");
+        //print("provider id => ${userId}");
         //  await stroge.write(key: "userEmail", value: userEmail);
         //  await stroge.write(key: 'isLoggedIn', value: 'true');
         //  await stroge.write(key: "userName", value: userName);
@@ -118,22 +120,24 @@ class _loginState extends State<login_provider> {
         prefs.setString("userId", userId);
         prefs.setString("countRequest", countRequest);
         prefs.setString("rating", rating);
-    FirebaseMessaging.instance.subscribeToTopic("booking"+userId);
+    FirebaseMessaging.instance.subscribeToTopic("booking$userId");
 
         Get.to(() => const Navbar_Provider());
       } else {
         // Login failed, show error message
         final Map<String, dynamic> responseData = json.decode(response.body);
         final String errorMessage = responseData['error'];
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-            errorMessage,
-            style: const TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.red,
-        ));
+        Snackbar( message: errorMessage, context: context, backgroundColor: Colors.red , textColor: Colors.white) ;
+        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //   content: Text(
+        //     errorMessage,
+        //     style: const TextStyle(color: Colors.white),
+        //   ),
+        //   backgroundColor: Colors.red,
+        // ));
       }
     } catch (e) {
+      // Snackbar ( message: , context: context, backgroundColor: Colors.red , textColor: Colors.white) ;
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Center(
           child: Text(
@@ -270,12 +274,10 @@ class _loginState extends State<login_provider> {
             //   (Get.to(() => const Home_Page()));
             // }
             ,
-            child: Container(
-              child: Text(
-                S.of(context).login,
-                style: TextStyle(
-                    color: whiteColor, fontSize: 20.0, fontFamily: 'Cairo'),
-              ),
+            child: Text(
+              S.of(context).login,
+              style: TextStyle(
+                  color: whiteColor, fontSize: 20.0, fontFamily: 'Cairo'),
             ),
           ),
         ),

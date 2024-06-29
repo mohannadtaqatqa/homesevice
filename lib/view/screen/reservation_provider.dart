@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:homeservice/data/model/Request_provider.dart';
 import 'package:homeservice/view/widgit/AppointmentPage_provider.dart';
 
+import '../../generated/l10n.dart';
+
 class reservation_provider extends StatelessWidget {
   const reservation_provider({super.key});
 
-  static const List<Tab> myTabs = <Tab>[
-    Tab(text: 'طلبات لي'),
-    Tab(text: 'مواعيدي'),
+  static  List<Tab> myTabs = <Tab>[
+    Tab(text: S.current.Requestsforme),
+    Tab(text: S.current.myAppointments),
   ];
 
   @override
@@ -17,7 +19,7 @@ class reservation_provider extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          bottom: const TabBar(
+          bottom:  TabBar(
             indicatorColor: Colors.amber,
             labelColor: Colors.amber,
             unselectedLabelColor: Colors.grey,
@@ -25,7 +27,7 @@ class reservation_provider extends StatelessWidget {
           ),
         ),
         body: const TabBarView(children: [
-          Request_provider(),
+          Requestprovider(),
           AppointmentPage_provider()]
             // myTabs.map((Tab tab) {
             //   final String label = tab.text!.toLowerCase();

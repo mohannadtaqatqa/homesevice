@@ -1,17 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/data/model/details_provider.dart';
 import 'package:homeservice/view/screen/acc_rej.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Request_provider extends StatefulWidget {
-  const Request_provider({Key? key});
+class Requestprovider extends StatefulWidget {
+  const Requestprovider({Key? key});
 
   @override
-  State<Request_provider> createState() => _provider_listState();
+  State<Requestprovider> createState() => _provider_listState();
 }
 
 Future<List<Map<String, dynamic>>> fetchRequests_provider() async {
@@ -22,9 +22,9 @@ Future<List<Map<String, dynamic>>> fetchRequests_provider() async {
         await get(Uri.parse('http://10.0.2.2:5000/GetRequestProvider/$userId'));
     if (response.statusCode == 200) {
       final List<dynamic> resBody = jsonDecode(response.body);
-      if (resBody is! List) {
-        throw Exception('Invalid data format: Expected a list');
-      }
+      // if (resBody is! List) {
+      //   throw Exception('Invalid data format: Expected a list');
+      // }
       return resBody.cast<Map<String, dynamic>>();
     } else {
       throw Exception('Failed to fetch requests: ${response.statusCode}');
@@ -34,7 +34,7 @@ Future<List<Map<String, dynamic>>> fetchRequests_provider() async {
   }
 }
 
-class _provider_listState extends State<Request_provider> {
+class _provider_listState extends State<Requestprovider> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,6 +105,10 @@ class _provider_listState extends State<Request_provider> {
                         ),
                         IconButton(
                           onPressed: () {
+                            
+                  String dateString = requests[index]['date_request'];
+                  DateTime originalDate = DateTime.parse(dateString);
+                  DateTime newDate = originalDate.add(const Duration(days: 1));
                             Get.to(
                               () => const accept_reject(),
                               arguments: detailsp(
@@ -115,7 +119,7 @@ class _provider_listState extends State<Request_provider> {
                                 location: requests[index]['address'],
                                 phone: requests[index]['phone_num'],
                                 servicen: requests[index]['servcie_name'],
-                                date: requests[index]['date_request'],
+                                date: newDate.toIso8601String(),
                                 description: requests[index]['description'],
                                 status: requests[index]['status'],
                               ),

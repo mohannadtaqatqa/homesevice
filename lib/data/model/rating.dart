@@ -32,12 +32,12 @@ rating(BuildContext context,String customerId,String providerId) {
     // your app's logo?
     image: Image.asset("images/review.png", width: 100, height: 100),
     submitButtonText: S.current.SubmitRating,
-    submitButtonTextStyle: TextStyle(fontFamily: 'Cairo'),
+    submitButtonTextStyle: const TextStyle(fontFamily: 'Cairo'),
     commentHint: 'وصف',
     
-    onCancelled: () => print('cancelled'),
+    onCancelled: () => {},//print('cancelled'),
     onSubmitted: (response) async {
-      final responce =
+      // final responce =
           await post(Uri.parse('http://10.0.2.2:5000/raiting'), headers: {
         'Content-Type': 'application/json',
       },
@@ -49,11 +49,11 @@ rating(BuildContext context,String customerId,String providerId) {
           }));
 
     //   try {
-    //     print(responce.statusCode);
+    //     //print(responce.statusCode);
     //   } catch (e) {
-    //     print(e);
+    //     //print(e);
     //   }
-    //   print('rating: ${response.rating}, comment: ${response.comment}');
+    //   //print('rating: ${response.rating}, comment: ${response.comment}');
     })
     );
 }

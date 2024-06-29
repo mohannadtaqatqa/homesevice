@@ -19,6 +19,6 @@ class UserController extends GetxController {
     userEmail.value = userData['email']!;
     userCity.value = userData['city']!;
     userAddress.value = userData['address']!;
-    print(userData);
+    //print(userData);
   }
 }

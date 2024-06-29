@@ -18,7 +18,7 @@ class RegisterBy extends GetWidget<Authviewmodel> {
         IconButton(
             onPressed: () {
               controller.facebookLogin();
-              print(" facebook"); 
+              //print(" facebook"); 
             },
             icon: Image.asset("images/faceIMG.png")),
       ],

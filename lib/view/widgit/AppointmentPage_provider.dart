@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/view/widgit/appointment.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../generated/l10n.dart';
 
 String? userId;
 String? userType;
@@ -62,8 +64,8 @@ class AppointmentPage_provider extends StatelessWidget {
                       height: 200,
                     ),
                     const SizedBox(height: 20),
-                    Text('You don\'t have any appointments yet.',
-                        style: Theme.of(context).textTheme.headline6),
+                    Text(S.of(context).noAppointment
+                    )
                   ],
                 ),
               );
@@ -83,7 +85,7 @@ class AppointmentPage_provider extends StatelessWidget {
                     city: appointments[index]['city'],
                     address: appointments[index]['address'],
                     des: appointments[index]['description'],
-                    date: DateTime.tryParse(appointments[index]['date'])!,
+                    date: DateTime.tryParse(appointments[index]['date'])!.add( const Duration(days: 1)),
                     phone: appointments[index]['phone_num'],
                     servname: appointments[index]['servcie_name'], 
                   );
@@ -100,8 +102,7 @@ class AppointmentPage_provider extends StatelessWidget {
                     height: 200,
                   ),
                   const SizedBox(height: 20),
-                  Text('You don\'t have any appointments yet.',
-                      style: Theme.of(context).textTheme.headline6),
+                  Text(S.of(context).noAppointment,),
                 ],
               ),
             );

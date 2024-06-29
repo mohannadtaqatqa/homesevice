@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/utilti/Color.dart';
+import '../../core/utilti/color.dart';
 
 String? userId;
 String? userType;
@@ -17,12 +17,12 @@ String? userType;
 
       userId = prefs.getString('userId')!;
       userType = prefs.getString('userType')!;
-      print(userId);
+      //print(userId);
       final response = await http
           .get(Uri.parse('http://10.0.2.2:5000/appointment/user/$userId'));
       if (response.statusCode == 200) {
         final List resBody = jsonDecode(response.body);
-        print("========>$resBody");
+        //print("========>$resBody");
         return resBody.cast<Map<String, dynamic>>();
       } else {
         throw Exception('Failed to fetch appointments: ${response.statusCode}');
@@ -33,7 +33,7 @@ String? userType;
     }
   }
 
-  Widget appointments = Container(
+  Widget appointments = SizedBox(
       child: FutureBuilder<List<Map<String, dynamic>>>(
         future: fetchAppointments(),
         builder: (context, snapshot) {

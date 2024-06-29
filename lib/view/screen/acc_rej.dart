@@ -9,7 +9,7 @@ class accept_reject extends StatelessWidget {
     return const Scaffold(
       
       body: SafeArea(
-        child: Request_detais_acc_rej()),
+        child: RequestDetaisAccRej()),
     );
   }
 }

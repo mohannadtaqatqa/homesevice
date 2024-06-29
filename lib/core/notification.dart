@@ -7,8 +7,8 @@ class FirebaseNotification {
 
   Future<void> initNotifications() async{
     await _firebaseMessaging.requestPermission();
-    String? token = await _firebaseMessaging.getToken();
-    print(token);
+    // String? token = await _firebaseMessaging.getToken();
+    //print(token);
   }
   
   

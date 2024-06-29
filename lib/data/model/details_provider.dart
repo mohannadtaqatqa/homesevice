@@ -1,9 +1,10 @@
 class detailsp {
+  
   final String? fname;
   final String? lname;
   final String? location;
   final String? city;
-  final double? rating;
+  final int? rating;
   final String? phone;
   final int? id;
   final String? description;

@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:homeservice/core/function/snakbar.dart';
 import 'package:homeservice/core/function/user_controller.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/generated/l10n.dart';
 import 'package:homeservice/view/screen/OTP.dart';
 import 'package:http/http.dart';
@@ -27,7 +28,7 @@ class _InputPhoneState extends State<ChangeEmail> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(height: 22,),
+                const  SizedBox(height: 22,),
                   Image.asset('images/enter-your-mail.png',width: MediaQuery.of(context).size.width*0.7,),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.1,
@@ -39,7 +40,7 @@ class _InputPhoneState extends State<ChangeEmail> {
                       children: [
                         Text(
                           textAlign: TextAlign.center,
-                          "سوف نرسل كود تحقق على بريدك ${controller.userEmail}",
+                          "${S.of(context).sendCodeEmail} ${controller.userEmail}",
                           style: const TextStyle(
                               fontSize: 18,
                               fontFamily: 'Cairo',
@@ -72,34 +73,18 @@ class _InputPhoneState extends State<ChangeEmail> {
                                         body: jsonEncode(<String, String>{
                                           "email": "${controller.userEmail}",
                                         }));
-                                    print(response.statusCode);
                                     if (response.statusCode == 200) {
                                       Get.to(
-                                        () => forgetOTP(
+                                        () => ForgetOTP(
                                             email: "${controller.userEmail}",
                                             currentPage: "changeEmail"),
                                       );
                                     }
                                     if (response.statusCode == 404) {
-                                      print("not done");
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                        content: Text(
-                                          "يرجى التاكد من البريد الالكتروني مدخل بشكل صحيح",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        backgroundColor: Colors.red,
-                                      ));
+                                      Snackbar( message: S.of(context).errorEmail1, context: context, backgroundColor: Colors.red , textColor: Colors.white) ;
                                     }
                                   } catch (e) {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(
-                                      content: Text(
-                                        "$e",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      backgroundColor: Colors.red,
-                                    ));
+                                    Snackbar( message: S.of(context).errorOccured, context: context, backgroundColor: Colors.red , textColor: Colors.white) ;
                                   }
                                 },
                                 child: Text(

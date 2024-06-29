@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/data/model/service_mpdel.dart';
 
 import 'package:http/http.dart';
 
 class Service extends StatefulWidget {
-  const Service({Key? key});
+  const Service({super.key});
 
   @override
   State<Service> createState() => _ServiceState();
@@ -15,12 +15,12 @@ class Service extends StatefulWidget {
 
 class _ServiceState extends State<Service> {
     Future<List> fetchservices() async {
-    print("inside getX");
+    //print("inside getX");
 
     final response = await get(Uri.parse('http://10.0.2.2:4000/service'));
-    print("inside getX2");
+    //print("inside getX2");
     List resbody = jsonDecode(response.body);
-    print(resbody);
+    //print(resbody);
     return resbody;
   }
 
@@ -59,7 +59,7 @@ class _ServiceState extends State<Service> {
     //   ),
     //   itemCount: service.length,
     //   itemBuilder: (context, index) {
-    //     print('+++++++++++++++++++========++++=++++ $service');
+    //     //print('+++++++++++++++++++========++++=++++ $service');
     //     return Container(
     //       decoration: BoxDecoration(
     //         borderRadius: BorderRadius.circular(30),

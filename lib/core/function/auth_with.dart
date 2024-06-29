@@ -16,8 +16,8 @@ import '../../view/screen/buttom_bar.dart';
 import '../../view/screen/navbar_provider.dart';
 
 class Authviewmodel extends GetxController {
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void onInit() {
@@ -39,7 +39,7 @@ class Authviewmodel extends GetxController {
 
   // void googleSignInMethod_() async {
   //   final GoogleSignInAccount? account = await _googleSignIn.signIn();
-  //   print(account);
+  //   //print(account);
   //   GoogleSignInAuthentication googleSignInAuthentication =
   //       await account!.authentication;
   //   if (googleSignInAuthentication.accessToken != null ||
@@ -48,7 +48,7 @@ class Authviewmodel extends GetxController {
   //       accessToken: googleSignInAuthentication.accessToken,
   //       idToken: googleSignInAuthentication.idToken,
   //     );
-  //     print(" flutter   zzz${credential.accessToken}");
+  //     //print(" flutter   zzz${credential.accessToken}");
 
   //     await _auth.signInWithCredential(credential);
   //   }
@@ -56,7 +56,7 @@ class Authviewmodel extends GetxController {
 
   googleSignInMethod() async {
     try {
-      GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+      GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
       if (googleSignInAccount == null) {
         return;
       } else {
@@ -68,7 +68,7 @@ class Authviewmodel extends GetxController {
           idToken: googleAuth.idToken,
         );
         UserCredential userCredential =
-            await _auth.signInWithCredential(credential);
+            await auth.signInWithCredential(credential);
         String? email = userCredential.user!.email;
         String? displayName = userCredential.user!.displayName;
         // /logingoogle
@@ -79,11 +79,9 @@ class Authviewmodel extends GetxController {
             body: jsonEncode({
               "email": email,
             }));
-        print(respo.statusCode);
         if (respo.statusCode == 200) {
           final Map<String, dynamic> responseData = jsonDecode(respo.body);
           responseData['token'] = JwtDecoder.decode(responseData['token']);
-          print(responseData);
           // if (responseData['message'] == "Login successful") {
           final String userType = responseData['token']['userType'].toString();
           final String userEmail = responseData['token']['email'].toString();
@@ -104,7 +102,6 @@ class Authviewmodel extends GetxController {
           prefs.setString("city", city);
           prefs.setString("address", address);
           prefs.setString("phone", phone);
-          // final prefs = await SharedPreferences.getInstance();
           Map<String, String> userData = {
             'userId': prefs.getString('userId')!,
             'userType': prefs.getString('userType')!,
@@ -115,22 +112,17 @@ class Authviewmodel extends GetxController {
             'city': prefs.getString('city')!,
             'address': prefs.getString('address')!,
           };
-          // Get.to()
 
           UserController userController = Get.put(UserController());
           userController.setData(userData);
-          print(isValid);
           if (isValid == "1") {
             if (userType == "0") {
-              print("ok");
               FirebaseMessaging.instance.subscribeToTopic("ok$userId");
               FirebaseMessaging.instance.subscribeToTopic("reject$userId");
               FirebaseMessaging.instance.subscribeToTopic("suggest$userId");
               FirebaseMessaging.instance.subscribeToTopic("cancel$userId");
-              print("ok get to navbar");
               Get.off(() => const Navbar());
             } else if (userType == "1") {
-              print(responseData['token']['status']);
               prefs.setString("status", responseData['token']['status'].toString());
               FirebaseMessaging.instance.subscribeToTopic("booking$userId");
               FirebaseMessaging.instance.subscribeToTopic("rating$userId");
@@ -139,7 +131,6 @@ class Authviewmodel extends GetxController {
               prefs.setString("rating",responseData['token']['rating'].toString(),);
               prefs.setString("count",responseData['token']['count'].toString(),);
               // prefs.setString("providerId", responseData['token'][''].toString());
-              print("provider get to navbar");
               Get.off(() => const Navbar_Provider());
             }
           }
@@ -156,37 +147,34 @@ class Authviewmodel extends GetxController {
         return userCredential;
       }
     } catch (error) {
-      print(error);
       return Future.error(error);
     }
   }
 
-  FacebookLogin _faceebookLogin = FacebookLogin();
+  FacebookLogin faceebookLogin =  FacebookLogin();
 
    facebookLogin() async {
-    print("object");
     FacebookLoginResult result =
-        await _faceebookLogin.logIn(customPermissions: ['email']);
+        await faceebookLogin.logIn(customPermissions: ['email']);
     final String accessToken = result.accessToken!.token;
-
-    print(accessToken);
+    // //print(accessToken);
     if (result.status == FacebookLoginStatus.success) {
       final faceCedential = FacebookAuthProvider.credential(accessToken);
-      await _auth.signInWithCredential(faceCedential);
+      await auth.signInWithCredential(faceCedential);
     }
   }
-   Future<UserCredential> facebook_Login() async {
-    // Trigger the sign-in flow
-     FacebookLoginResult loginResult = await _faceebookLogin.logIn();
-    print (loginResult.status);
-    // Create a credential from the access token
-    final OAuthCredential facebookAuthCredential =
-        FacebookAuthProvider.credential(loginResult.accessToken!.token);
-    print(facebookAuthCredential.idToken); //Here getting null
+  //  Future<UserCredential> facebook_Login() async {
+  //   // Trigger the sign-in flow
+  //    FacebookLoginResult loginResult = await _faceebookLogin.logIn();
+  //   print (loginResult.status);
+  //   // Create a credential from the access token
+  //   final OAuthCredential facebookAuthCredential =
+  //       FacebookAuthProvider.credential(loginResult.accessToken!.token);
+  //   //print(facebookAuthCredential.idToken); //Here getting null
 
-    // Once signed in, return the UserCredential
-    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-  }
+  //   // Once signed in, return the UserCredential
+  //   return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  // }
   //  Future<void> facebookSignIn() async {
   //   try {
   //     final result = await _facebookLogin.logIn(permissions: [
@@ -209,22 +197,22 @@ class Authviewmodel extends GetxController {
   //         final user = userCredential.user;
 
   //         // يمكنك استخدام بيانات المستخدم هنا لتحديث حالة التطبيق أو تخزينها بشكل مؤقت
-  //         print('Logged in as: ${user!.displayName}');
+  //         //print('Logged in as: ${user!.displayName}');
 
   //         break;
 
   //       case FacebookLoginStatus.cancel:
   //         // حالة إلغاء تسجيل الدخول
-  //         print('Facebook login canceled');
+  //         //print('Facebook login canceled');
   //         break;
 
   //       case FacebookLoginStatus.error:
   //         // حالة حدوث خطأ
-  //         print('Error while logging in: ${result.error}');
+  //         //print('Error while logging in: ${result.error}');
   //         break;
   //     }
   //   } catch (error) {
-  //     print('Error while logging in: $error');
+  //     //print('Error while logging in: $error');
   //   }
   // }
 }

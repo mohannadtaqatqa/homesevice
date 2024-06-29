@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/view/screen/home_page_provider.dart';
 import 'package:homeservice/view/screen/notification_page.dart' as noti;
 import 'package:homeservice/view/screen/reservation_provider.dart';

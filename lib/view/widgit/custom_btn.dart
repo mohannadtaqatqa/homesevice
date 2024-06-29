@@ -37,8 +37,7 @@
 //   }
 // }
 import 'package:flutter/material.dart';
-import 'package:homeservice/core/utilti/Color.dart';
-import 'package:homeservice/core/utilti/size_config.dart';
+import 'package:homeservice/core/utilti/color.dart';
 
 class CostumButton extends StatefulWidget {
   const CostumButton({super.key,@required this.text,this.onTap});

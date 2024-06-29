@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:homeservice/core/function/fcm_config.dart';
+import 'package:homeservice/core/function/snakbar.dart';
 import 'package:homeservice/core/function/user_controller.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/view/screen/OTP.dart';
 import 'package:homeservice/view/screen/buttom_bar.dart';
 import 'package:homeservice/view/screen/home.dart';
@@ -37,12 +38,12 @@ import '../../generated/l10n.dart';
 // Future<void> check() async {
 //   final SharedPreferences pref = await SharedPreferences.getInstance();
 //   bool isloggedIn = pref.getBool("LoggedIn") ?? false;
-//   print(isloggedIn);
+//   //print(isloggedIn);
 //   if (isloggedIn) {
 //     Navigator.pushReplacement(
 //         context, MaterialPageRoute(builder: (ctx) => Appointement()));
 //   }
-//   print(isloggedIn);
+//   //print(isloggedIn);
 
 // }
 class LoggedIn extends StatefulWidget {
@@ -65,7 +66,7 @@ class _LoggedInState extends State<LoggedIn> {
     final isLoggedIn = await storage.read(key: 'isLoggedIn') == 'true';
     if (isLoggedIn) {
       // Navigate to Home screen or perform actions based on logged-in user
-      Get.to(() => const Home_Page());
+      Get.to(() => const HomePage());
     }
   }
 
@@ -100,7 +101,6 @@ class _loginState extends State<login> {
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
         responseData['token'] = JwtDecoder.decode(responseData['token']);
-        print(responseData);
         // if (responseData['message'] == "Login successful") {
         final String userType = responseData['token']['userType'].toString();
         final String userEmail = responseData['token']['email'].toString();
@@ -145,6 +145,7 @@ class _loginState extends State<login> {
             FirebaseMessaging.instance.subscribeToTopic("cancel$userId");
             Get.to(() => const Navbar());
           } else if (userType == "1") {
+            print(responseData['token']);
             FirebaseMessaging.instance.subscribeToTopic("booking$userId");
             FirebaseMessaging.instance.subscribeToTopic("rating$userId");
             FirebaseMessaging.instance.subscribeToTopic("remider$userId");
@@ -169,7 +170,7 @@ class _loginState extends State<login> {
             Get.to(() => const Navbar_Provider());
           }
         } else {
-          Get.to(() => forgetOTP(
+          Get.to(() => ForgetOTP(
                 email: email,
                 currentPage: 'LoginPage',
               ));
@@ -177,25 +178,34 @@ class _loginState extends State<login> {
       } else {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final String errorMessage = responseData['error'];
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-            errorMessage,
-            style: const TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.redAccent,
-        ));
+        Snackbar(
+            message: errorMessage,
+            context: context,
+            backgroundColor: Colors.red,
+            textColor: Colors.white);
+        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //   content: Text(
+        //     errorMessage,
+        //     style: const TextStyle(color: Colors.white),
+        //   ),
+        //   backgroundColor: Colors.redAccent,
+        // ));
       }
     } catch (e) {
-      print(e);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Center(
-          child: Text(
-            "كلمة المرور او الايميل خطأ",
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        backgroundColor: Colors.red,
-      ));
+      Snackbar(
+          message: S.current.errorpassoremail,
+          context: context,
+          backgroundColor: Colors.red,
+          textColor: whiteColor);
+      // ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+      //   content: Center(
+      //     child: Text(
+      //       S.current.errorpassoremail,
+      //       style:const TextStyle(color: Colors.white),
+      //     ),
+      //   ),
+      //   backgroundColor: Colors.red,
+      // ));
 
       // Handle error
     }
@@ -223,7 +233,7 @@ class _loginState extends State<login> {
             style: TextStyle(
                 color: !Get.isDarkMode
                     ? Colors.black
-                    : Color.fromARGB(230, 255, 255, 255),
+                    : const Color.fromARGB(230, 255, 255, 255),
                 fontSize: 30.0,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Cairo',
@@ -306,7 +316,7 @@ class _loginState extends State<login> {
                       //color: Colors.blue[900],
                       color: !Get.isDarkMode
                           ? mainColor
-                          : Color.fromARGB(230, 255, 255, 255),
+                          : const Color.fromARGB(230, 255, 255, 255),
                     ),
                   ) //icon at tail of input
                   )),

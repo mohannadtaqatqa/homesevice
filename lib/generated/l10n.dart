@@ -899,6 +899,426 @@ class S {
       args: [],
     );
   }
+
+  /// `Ratings`
+  String get ratings {
+    return Intl.message(
+      'Ratings',
+      name: 'ratings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The code is incorrect`
+  String get errorCode {
+    return Intl.message(
+      'The code is incorrect',
+      name: 'errorCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account settings`
+  String get Settingsaccount {
+    return Intl.message(
+      'Account settings',
+      name: 'Settingsaccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ratings`
+  String get raitings {
+    return Intl.message(
+      'Ratings',
+      name: 'raitings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `General`
+  String get General {
+    return Intl.message(
+      'General',
+      name: 'General',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Night mode`
+  String get naightMode {
+    return Intl.message(
+      'Night mode',
+      name: 'naightMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Private settings`
+  String get settingsPrivate {
+    return Intl.message(
+      'Private settings',
+      name: 'settingsPrivate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Personal settings`
+  String get PersonalSettings {
+    return Intl.message(
+      'Personal settings',
+      name: 'PersonalSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Email`
+  String get changeEmail {
+    return Intl.message(
+      'Change Email',
+      name: 'changeEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Password`
+  String get changePass {
+    return Intl.message(
+      'Change Password',
+      name: 'changePass',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select a date`
+  String get selectDate {
+    return Intl.message(
+      'Please select a date',
+      name: 'selectDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Service reservation has been requested 📩`
+  String get newrequest {
+    return Intl.message(
+      'Service reservation has been requested 📩',
+      name: 'newrequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose your reservation date`
+  String get selectdate {
+    return Intl.message(
+      'Choose your reservation date',
+      name: 'selectdate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ok`
+  String get ok {
+    return Intl.message(
+      'Ok',
+      name: 'ok',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password changed successfully`
+  String get changePassSuccess {
+    return Intl.message(
+      'Password changed successfully',
+      name: 'changePassSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Appointment details`
+  String get appoindetails {
+    return Intl.message(
+      'Appointment details',
+      name: 'appoindetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Service reservation has been confirmed`
+  String get bookingSuccess {
+    return Intl.message(
+      'Service reservation has been confirmed',
+      name: 'bookingSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have already booked a service`
+  String get alreadyBooking {
+    return Intl.message(
+      'You have already booked a service',
+      name: 'alreadyBooking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No service provider available`
+  String get noProvider {
+    return Intl.message(
+      'No service provider available',
+      name: 'noProvider',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We will send a confirmation code to your email`
+  String get sendCodeEmail {
+    return Intl.message(
+      'We will send a confirmation code to your email',
+      name: 'sendCodeEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please check your email address`
+  String get errorEmail1 {
+    return Intl.message(
+      'Please check your email address',
+      name: 'errorEmail1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recover your account`
+  String get recovery {
+    return Intl.message(
+      'Recover your account',
+      name: 'recovery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your email`
+  String get enterEmail {
+    return Intl.message(
+      'Enter your email',
+      name: 'enterEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `and`
+  String get and {
+    return Intl.message(
+      'and',
+      name: 'and',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Complete your information`
+  String get completeInfo {
+    return Intl.message(
+      'Complete your information',
+      name: 'completeInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password or email is incorrect`
+  String get errorpassoremail {
+    return Intl.message(
+      'Password or email is incorrect',
+      name: 'errorpassoremail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Image`
+  String get image {
+    return Intl.message(
+      'Image',
+      name: 'image',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Load image`
+  String get loadImage {
+    return Intl.message(
+      'Load image',
+      name: 'loadImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Client ratings`
+  String get clientRatings {
+    return Intl.message(
+      'Client ratings',
+      name: 'clientRatings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rating`
+  String get rating1 {
+    return Intl.message(
+      'Rating',
+      name: 'rating1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Proposed date`
+  String get Proposeddate {
+    return Intl.message(
+      'Proposed date',
+      name: 'Proposeddate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Close`
+  String get close {
+    return Intl.message(
+      'Close',
+      name: 'close',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Services in the app`
+  String get servicesinapp {
+    return Intl.message(
+      'Services in the app',
+      name: 'servicesinapp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Required service`
+  String get servicerequest {
+    return Intl.message(
+      'Required service',
+      name: 'servicerequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You dont have any appointments yet.`
+  String get noAppointment {
+    return Intl.message(
+      'You dont have any appointments yet.',
+      name: 'noAppointment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request for re-providing`
+  String get reprovid {
+    return Intl.message(
+      'Request for re-providing',
+      name: 'reprovid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error occurred, please try again.`
+  String get errorOccured {
+    return Intl.message(
+      'Error occurred, please try again.',
+      name: 'errorOccured',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your account has been confirmed`
+  String get verefiyuser {
+    return Intl.message(
+      'Your account has been confirmed',
+      name: 'verefiyuser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please fill in all fields as appropriate`
+  String get fillAll {
+    return Intl.message(
+      'Please fill in all fields as appropriate',
+      name: 'fillAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No rating yet`
+  String get noRating {
+    return Intl.message(
+      'No rating yet',
+      name: 'noRating',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Requests for me`
+  String get Requestsforme {
+    return Intl.message(
+      'Requests for me',
+      name: 'Requestsforme',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

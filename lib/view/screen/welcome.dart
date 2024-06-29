@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/view/screen/lang.dart';
 import 'package:homeservice/view/screen/login.dart';
 import 'package:homeservice/view/screen/singup.dart';

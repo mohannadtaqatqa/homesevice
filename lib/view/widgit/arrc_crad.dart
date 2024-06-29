@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
-import '../../core/utilti/Color.dart';
+import '../../core/utilti/color.dart';
 import '../../generated/l10n.dart';
 
 class arc_card extends StatefulWidget {
@@ -38,10 +38,10 @@ class _arc_cardState extends State<arc_card> {
             Expanded(
               flex: 10,
               child: Container(
-                decoration: BoxDecoration(),
+                decoration:const BoxDecoration(),
                 child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -79,7 +79,7 @@ class _arc_cardState extends State<arc_card> {
                         ),
                         const SizedBox(width: 20),
                         Text(
-                          "${widget.phone}",
+                          widget.phone,
                           style: const TextStyle(fontSize: 15),
                         ),
                       ],
@@ -93,11 +93,11 @@ class _arc_cardState extends State<arc_card> {
                         Text(
                           "${S.of(context).theService}:",
                           style:
-                          TextStyle(fontWeight: FontWeight.bold),
+                        const  TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(width: 20),
                         Text(
-                          "${widget.servicename}",
+                          widget.servicename,
                           style: const TextStyle(fontSize: 15),
                         ),
                       ],
@@ -116,7 +116,7 @@ class _arc_cardState extends State<arc_card> {
                         const SizedBox(width: 20),
                          Flexible(
                           child: Text(
-                            "${widget.descrbtion}",
+                            widget.descrbtion,
                             style: const TextStyle(fontSize: 15),
                           ),
                         ),
@@ -135,7 +135,7 @@ class _arc_cardState extends State<arc_card> {
                         ),
                         const SizedBox(width: 20),
                          Text(
-                          "${widget.datereq}",
+                          widget.datereq,
                           style: const TextStyle(fontSize: 15),
 
                         ),

@@ -2,32 +2,32 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/data/model/details_provider.dart';
 import 'package:homeservice/view/screen/details_d.dart';
 import 'package:http/http.dart';
 
-class provider_list extends StatefulWidget {
-  const provider_list({Key? key});
+class ProviderList extends StatefulWidget {
+  const ProviderList({super.key});
 
   @override
-  State<provider_list> createState() => _provider_listState();
+  State<ProviderList> createState() => _ProviderListState();
 }
 
 final id = Get.arguments;
 
 Future<List<dynamic>> fetchservices(int id) async {
-  print("provider paage ");
+  //print("provider paage ");
 
   final response =
       await get(Uri.parse('http://10.0.2.2:5000/serviceprovider/details/$id'));
-  print("inside getX2");
+  //print("inside getX2");
   List<dynamic> resbody = jsonDecode(response.body);
-  print(resbody);
+  //print(resbody);
   return resbody;
 }
 
-class _provider_listState extends State<provider_list> {
+class _ProviderListState extends State<ProviderList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,7 +97,7 @@ class _provider_listState extends State<provider_list> {
                           //     size: 30, color: Colors.white),
                           IconButton(
                               onPressed: () {
-                                Get.to(() => const provider_details(),arguments:
+                                Get.to(() => const ProviderDetails(),arguments:
                                 //  List
                                 detailsp(
                                   id:snapshot.data![index]['provider_id'],
@@ -110,7 +110,7 @@ class _provider_listState extends State<provider_list> {
                                   rating: snapshot.data![index]['rating'],
                                  )
                                   );
-                                  print(snapshot.data![index]['rating']);
+                                  //print(snapshot.data![index]['rating']);
                               },
                               icon: const Icon(Icons.arrow_forward_ios,
                                   size: 30, color: Colors.white))

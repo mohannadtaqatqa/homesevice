@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:homeservice/core/function/snakbar.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/generated/l10n.dart';
 import 'package:homeservice/view/screen/OTP.dart';
 import 'package:http/http.dart';
@@ -24,7 +24,7 @@ class _InputPhoneState extends State<InputPhone> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("استعادة حسابك",style: TextStyle(fontFamily: 'Cairo',fontSize: 22,fontWeight: FontWeight.bold),),
+        title: Text(S.of(context).recovery,style:const TextStyle(fontFamily: 'Cairo',fontSize: 22,fontWeight: FontWeight.bold),),
       ),
       body: SafeArea(
           child: Container(
@@ -47,9 +47,9 @@ class _InputPhoneState extends State<InputPhone> {
                     const SizedBox(
                       height: 40,
                     ),
-                    const Text(
-                      "ادخل بريدك الالكتروني",
-                      style: TextStyle(
+                     Text(S.of(context).enterEmail
+                    ,
+                      style:const TextStyle(
                         fontFamily: 'Cairo',
                           fontWeight: FontWeight.w500, fontSize: 25),
                     ),
@@ -153,20 +153,20 @@ class _InputPhoneState extends State<InputPhone> {
                                                 'application/json; charset=UTF-8',
                                           },
                                           body: jsonEncode(<String, String>{
-                                            "email": "${emailOTP.text}",
+                                            "email": emailOTP.text,
                                           }));
-                                      print(response.statusCode);
+                                      //print(response.statusCode);
                                       if (response.statusCode == 200) {
                                         Get.to(
-                                          () => forgetOTP(
+                                          () => ForgetOTP(
                                               email: emailOTP.text,
                                               currentPage: "confirmationEmail"),
                                         );
-                                        print("done");
+                                        //print("done");
                                       }
                                       if (response.statusCode == 404) {
-                                        print("not done");
-                                      Snackbar(message: "يرجى التاكد من البريد الالكتروني مدخل بشكل صحيح", context: context, backgroundColor: Colors.red,textColor: whiteColor );
+                                        //print("not done");
+                                      Snackbar(message: S.current.errorEmail, context: context, backgroundColor: Colors.red,textColor: whiteColor );
                                         }
                                     } catch (e) {
                                       Snackbar(message: "Error: $e", context: context, backgroundColor: Colors.red,textColor: whiteColor );
@@ -191,4 +191,3 @@ class _InputPhoneState extends State<InputPhone> {
   }
   //very otp code
 }
- 

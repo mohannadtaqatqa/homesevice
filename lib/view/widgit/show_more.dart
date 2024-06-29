@@ -3,9 +3,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/data/model/provider_page.dart';
 import 'package:http/http.dart' as http;
+
+import '../../generated/l10n.dart';
 
 class All_service extends StatefulWidget {
   const All_service({super.key});
@@ -34,9 +36,9 @@ class _All_serviceState extends State<All_service> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("الخدمات في التطبيق ",
-            style: TextStyle(
-              fontFamily: 'cairo',
+        title:  Text(S.of(context).servicesinapp,
+            style:const TextStyle(
+              fontFamily: 'Cairo',
               fontSize: 25,
             )),
       ),
@@ -112,8 +114,8 @@ class _All_serviceState extends State<All_service> {
                             height: 38,
                             width: 80,
                           ),
-                          SizedBox(height: 10),
-                          SizedBox(
+                        const  SizedBox(height: 10),
+                        const  SizedBox(
                             width: 50,
                           ),
                           Text(

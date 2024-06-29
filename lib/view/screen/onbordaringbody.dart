@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:homeservice/view/screen/login.dart';
 import 'package:homeservice/view/screen/onnordingscreen.dart';
 import 'package:homeservice/view/screen/welcome.dart';
 import 'package:homeservice/view/widgit/custom_btn.dart';
@@ -18,7 +17,6 @@ class _BodyBordingState extends State<BodyBording> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     pageController = PageController(initialPage: 0)
       ..addListener(() {
@@ -26,6 +24,7 @@ class _BodyBordingState extends State<BodyBording> {
       });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Container(
         decoration: const BoxDecoration(color: Colors.white),

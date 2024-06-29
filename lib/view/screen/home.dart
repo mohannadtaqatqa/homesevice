@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:homeservice/core/function/user_controller.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/data/model/provider_page.dart';
 import 'package:homeservice/view/screen/appint_user.dart';
 import 'package:homeservice/view/widgit/ADV.dart';
@@ -11,16 +11,16 @@ import 'package:http/http.dart';
 import '../../generated/l10n.dart';
 import '../widgit/show_more.dart';
 
-class Home_Page extends StatefulWidget {
-  const Home_Page({
-    Key? key,
-  }) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({
+    super.key,
+  });
 
   @override
-  State<Home_Page> createState() => _Home_PageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _Home_PageState extends State<Home_Page> {
+class _HomePageState extends State<HomePage> {
   UserController userController = Get.put(UserController());
   
   Future<List> fetchservices() async {
@@ -84,9 +84,9 @@ class _Home_PageState extends State<Home_Page> {
                   ),
                   InkWell(
                     onTap: () => Get.to(() => const All_service()),
-                    child: const Text(
-                      "عرض المزيد  ",
-                      style: TextStyle(
+                    child:  Text(
+                      S.of(context).showmore,
+                      style:const TextStyle(
                         fontFamily: 'cairo',
                         fontSize: 16,
                         color: Colors.amberAccent,
@@ -108,7 +108,7 @@ class _Home_PageState extends State<Home_Page> {
                     );
                   }
                   return GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics:const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -151,10 +151,10 @@ class _Home_PageState extends State<Home_Page> {
                               colors: [
                                 Get.isDarkMode
                                     ? const Color.fromARGB(255, 76, 76, 76)
-                                    : const Color.fromARGB(0, 238, 238, 238)!,
+                                    : const Color.fromARGB(0, 238, 238, 238),
                                 Get.isDarkMode
-                                    ? Color.fromARGB(255, 155, 149, 149)
-                                    : const Color.fromARGB(0, 238, 238, 238)!,
+                                    ?const Color.fromARGB(255, 155, 149, 149)
+                                    :const Color.fromARGB(0, 238, 238, 238),
                               ],
                             ),
                             borderRadius: BorderRadius.circular(10),
@@ -163,7 +163,7 @@ class _Home_PageState extends State<Home_Page> {
                                 color: Get.isDarkMode ? Colors.black : const Color.fromARGB(255, 177, 168, 168),
                                 spreadRadius: 1,
                                 blurRadius: 5,
-                                offset: Offset(0, 5),
+                                offset:const Offset(0, 5),
                               ),
                               BoxShadow(
                                 color: Get.isDarkMode ? Colors.grey.withOpacity(0.5) : const Color.fromARGB(255, 254, 253, 253),
@@ -178,7 +178,7 @@ class _Home_PageState extends State<Home_Page> {
                                 height: 38,
                                 width: 80,
                               ),
-                              SizedBox(height: 10, width: 50),
+                            const  SizedBox(height: 10, width: 50),
                               Text(
                                 snapshot.data?[index]['servcie_name'],
                                 style: const TextStyle(
@@ -210,9 +210,9 @@ class _Home_PageState extends State<Home_Page> {
                       children: appointments.map((appointment) {
                         return Column(
                           children: [
-                            const Row(
+                             Row(
                               children: [
-                                Text("\t\t\t\t\t\t\tمواعيد اليوم",style: TextStyle(fontFamily: 'Cairo',fontSize: 14,),)
+                                Text("\t\t\t\t\t\t\t${S.of(context).appointoday}",style:const TextStyle(fontFamily: 'Cairo',fontSize: 14,),)
                               ],
                             ),
                             InkWell(
@@ -238,7 +238,7 @@ class _Home_PageState extends State<Home_Page> {
                                 child: ListTile(
                                   title: Text(
                                     '${appointment['provider_fname']} ${appointment['provider_lname']}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'Cairo',
                                     ),
@@ -277,12 +277,12 @@ class _Home_PageState extends State<Home_Page> {
 
 /*
 Future<List> fetchservices() async {
-    print("inside getX");
+    //print("inside getX");
 
     final response = await get(Uri.parse('http://10.0.2.2:3000/services'));
-    print("inside getX2");
+    //print("inside getX2");
     List resbody = jsonDecode(response.body);
-    print(resbody);
+    //print(resbody);
     return resbody;
   }
 FutureBuilder<List>(

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:homeservice/core/utilti/size_config.dart';
-
-class cover extends StatelessWidget {
-  const cover({super.key, required this.img});
+class Cover extends StatelessWidget {
+  const Cover({super.key, required this.img});
   final String img;
 
   @override
@@ -11,7 +9,7 @@ class cover extends StatelessWidget {
       color: Colors.grey,
       width: 420,
       height: 200,
-      child: Image.asset('${img}'),
+      child: Image.asset(img),
     );
   }
 }

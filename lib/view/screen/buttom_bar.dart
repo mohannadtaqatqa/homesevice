@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/view/screen/appointment.dart';
 import 'package:homeservice/view/screen/home.dart';
 import 'package:homeservice/view/screen/notification_page.dart' as no;
@@ -14,7 +14,7 @@ class Navbar extends StatefulWidget {
 
 class _NavbarState extends State<Navbar> {
   List<Widget> pageWidget = [
-    const Home_Page(),
+    const HomePage(),
     const Appointement(),
     const no.Notification(),
     const Account(),
@@ -49,7 +49,7 @@ class _NavbarState extends State<Navbar> {
             setState(() {
               selectedIndex = index;
             });
-            print(index);
+            //print(index);
           },
         ),
         body: pageWidget[selectedIndex]);

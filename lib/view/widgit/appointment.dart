@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/data/model/rating.dart';
 import 'package:homeservice/generated/l10n.dart';
-import 'package:homeservice/view/widgit/AppointmentPage_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/function/DateUtil.dart';
+import '../../core/function/date_util.dart';
 
 // Future<String?>? getUserType() async {
 //   final prefs = await SharedPreferences.getInstance();
@@ -50,6 +48,8 @@ class _AppointmentState extends State<Appointment> {
   Widget build(BuildContext context) {
   DateTime today = DateTime.now();
     bool condition = widget.userType == '0' && widget.date.isBefore(today) ;
+    //print(condition);
+    //print(today);
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
       child: Container(
@@ -118,7 +118,7 @@ class _AppointmentState extends State<Appointment> {
               children: [
                 Text(
                   "${S.of(context).theService}:",
-                  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontFamily: 'Cairo'),
+                  style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontFamily: 'Cairo'),
                 ),
                 const SizedBox(width: 20),
                 Text(
@@ -154,7 +154,7 @@ class _AppointmentState extends State<Appointment> {
               children: [
                 Text(
                   "${S.of(context).date}:",
-                  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontFamily: 'Cairo'),
+                  style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontFamily: 'Cairo'),
                 ),
                 const SizedBox(width: 20),
                 Text(
@@ -177,10 +177,11 @@ class _AppointmentState extends State<Appointment> {
                     foregroundColor: Colors.white,
                     backgroundColor: mainColor,
                   ),
-                  child: Text(S.of(context).compulationRating,style: TextStyle(fontFamily: 'Cairo'),),
+                  child: Text(S.of(context).compulationRating,style: const TextStyle(fontFamily: 'Cairo'),),
                 ),
               ],
-            ): Container()
+            )
+            : Container()
                   
           ],
         ),

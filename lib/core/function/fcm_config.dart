@@ -16,11 +16,11 @@ requestPermissionNotification() async {
   );
 }
 
-fcmconfig() async {
-  await FirebaseMessaging.onMessageOpenedApp.listen((notification) {
-    print("Notification ====>");
-    print(notification.notification!.title);
-    print(notification.notification!.body);
+fcmconfig() {
+   FirebaseMessaging.onMessageOpenedApp.listen((notification) {
+    //print("Notification ====>");
+    //print(notification.notification!.title);
+    //print(notification.notification!.body);
     // FlutterRingtonePlayer().playNotification();
     Get.snackbar(
       notification.notification!.title!,
@@ -31,7 +31,7 @@ fcmconfig() async {
 }
 
 // refreshPageNotification(data) async {
-//   print(data['pageid']);
-//   print(data['pagename']);
-//   print(Get.currentRoute);
+//   //print(data['pageid']);
+//   //print(data['pagename']);
+//   //print(Get.currentRoute);
 // }

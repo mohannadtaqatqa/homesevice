@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:homeservice/core/function/DateUtil.dart';
+import 'package:homeservice/core/function/date_util.dart';
 import 'package:homeservice/view/widgit/arrc_crad.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../core/utilti/Color.dart';
+import '../../core/utilti/color.dart';
 import '../../generated/l10n.dart';
 
 class Archives extends StatelessWidget {

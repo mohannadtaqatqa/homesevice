@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/function/snakbar.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/generated/l10n.dart';
 import 'package:homeservice/view/screen/OTP.dart';
 import 'package:http/http.dart';
@@ -150,35 +151,35 @@ class _InputPhoneState extends State<CheckEmail> {
                                                 'application/json; charset=UTF-8',
                                           },
                                           body: jsonEncode(<String, String>{
-                                            "email": "${emailOTP.text}",
+                                            "email": emailOTP.text,
                                           }));
-                                      print(response.statusCode);
+                                      //print(response.statusCode);
                                       if (response.statusCode == 200) {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => forgetOTP(
+                                              builder: (context) => ForgetOTP(
                                                   email: emailOTP.text,
                                                   currentPage:
                                                       "confirmationEmail"),
                                             ));
-                                        print("done");
+                                        //print("done");
                                       }
                                       if (response.statusCode == 404) {
-                                        print("not done");
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                          content: Text(
-                                            "يرجى التاكد من البريد الالكتروني مدخل بشكل صحيح" ,
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                          backgroundColor: Colors.red,
-                                        ));
-                                        
+                                        //print("not done");
+                                        Snackbar(
+                                            message: S.of(context).errorEmail,
+                                            context: context,
+                                            backgroundColor: Colors.red,
+                                            textColor: Colors.white);
                                       }
                                     } catch (e) {
-                                      print("Error: $e");
+                                      //print("Error: $e");
+                                      Snackbar(
+                                          message: S.of(context).errorOccured,
+                                          context: context,
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white);
                                     }
                                   },
                                   child: Text(

@@ -41,15 +41,7 @@ String? yourService = S.current.PleaseChoose;
 DateTime? dateValue;
 int? serviceid;
 
-@override
-void dispose() {
-  firstnameCotrlr.dispose();
-  secondnameCntrlr.dispose();
-  emailCotrlr.dispose();
-  passwordCotrlr.dispose();
-  phoneCotrlr.dispose();
-  // super.dispose();
-}
+
 
 Future<void> singup(BuildContext context, int currentpage, formKey) async {
   String fname = firstnameCotrlr.text.trim();
@@ -63,8 +55,6 @@ Future<void> singup(BuildContext context, int currentpage, formKey) async {
         // if (currentpage == 0) {
     try {
       if (userContr.text == S.current.customer) {
-          
-        print("custommert");
         final response =
             await post(Uri.parse('http://10.0.2.2:5000/signup/user'),
                 headers: <String, String>{
@@ -72,7 +62,7 @@ Future<void> singup(BuildContext context, int currentpage, formKey) async {
                 },
                 body: jsonEncode(<String, String>{
                   "fname": fname,
-                  "lastname": lname ?? "",
+                  "lastname": lname,
                   "phone": phoneNumber,
                   "city": city,
                   "address": address,
@@ -81,29 +71,26 @@ Future<void> singup(BuildContext context, int currentpage, formKey) async {
                   "verify": currentpage == 1 ? "1" : "0"
                 }));
         if (response.statusCode == 201) {
-          Snackbar(
-              message: 'تمت عملية انشاء الحساب',
-              context: context,
-              backgroundColor: Colors.green,
-              textColor: Colors.white);
+          // Snackbar(
+          //     message: 'تمت عملية انشاء الحساب',
+          //     context: context,
+          //     backgroundColor: Colors.green,
+          //     textColor: Colors.white);
           // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           //   content: Text('تمت عملية انشاء الحساب',
           //       style: TextStyle(color: Colors.white)),
           //   backgroundColor: Colors.green,
           // ));
         if  (currentpage == 0 )
-          {Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
+          {Get.to(()=>
                       //  OTP(
                       //   email: email, currentPage: "signup",
 
                       // ),
-                      forgetOTP(
+                      ForgetOTP(
                         email: email,
                         currentPage: 'signup',
-                      )));}
+                      ));}
   else {
         final respo = await post(Uri.parse("http://10.0.2.2:5000/logingoogle"),
             headers: <String, String>{
@@ -112,11 +99,9 @@ Future<void> singup(BuildContext context, int currentpage, formKey) async {
             body: jsonEncode({
               "email": email,
             }));
-        print(respo.statusCode);
         if (respo.statusCode == 200) {
           final Map<String, dynamic> responseData = jsonDecode(respo.body);
           responseData['token'] = JwtDecoder.decode(responseData['token']);
-          print(responseData);
           // if (responseData['message'] == "Login successful") {
           final String userType = responseData['token']['userType'].toString();
           final String userEmail = responseData['token']['email'].toString();
@@ -155,14 +140,12 @@ Future<void> singup(BuildContext context, int currentpage, formKey) async {
 
           if (isValid == "0") {
             if (userType == "0") {
-              print("ok");
               FirebaseMessaging.instance.subscribeToTopic("ok$userId");
               FirebaseMessaging.instance.subscribeToTopic("reject$userId");
               FirebaseMessaging.instance.subscribeToTopic("suggest$userId");
               FirebaseMessaging.instance.subscribeToTopic("cancel$userId");
               Get.to(() => const Navbar());
             } else if (userType == "1") {
-              print(responseData['token']['status']);
               prefs.setString(
                   "status", responseData['token']['status'].toString());
               FirebaseMessaging.instance.subscribeToTopic("booking$userId");
@@ -203,7 +186,6 @@ Future<void> singup(BuildContext context, int currentpage, formKey) async {
           // ));
         }
       } else {
-        print("provideeeeeeeeeer");
         final response =
             await post(Uri.parse('http://10.0.2.2:5000/signup/provider'),
                 headers: <String, String>{
@@ -221,12 +203,12 @@ Future<void> singup(BuildContext context, int currentpage, formKey) async {
                   "serviceid": '$serviceid'
                 }));
         if (response.statusCode == 201) {
-          Snackbar(
-            message: 'تمت عملية انشاء الحساب',
-            context: context,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-          );
+          // Snackbar(
+          //   message: 'تمت عملية انشاء الحساب',
+          //   context: context,
+          //   backgroundColor: Colors.green,
+          //   textColor: Colors.white,
+          // );
 
           // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           //   content: Text('تمت عملية انشاء الحساب',
@@ -236,7 +218,7 @@ Future<void> singup(BuildContext context, int currentpage, formKey) async {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => forgetOTP(
+                  builder: (context) => ForgetOTP(
                         email: email,
                         currentPage: 'signup',
                       )));
@@ -260,9 +242,8 @@ Future<void> singup(BuildContext context, int currentpage, formKey) async {
         }
       }
     } catch (e) {
-      print('Error: $e');
       Snackbar(
-        message: 'حدث خطأ، يرجى المحاولة مرة أخرى.',
+        message: S.current.errorOccured,
         context: context,
         backgroundColor: Colors.red,
         textColor: Colors.white,
@@ -273,7 +254,7 @@ Future<void> singup(BuildContext context, int currentpage, formKey) async {
     }
   } else {
     Snackbar(
-      message: 'يجب تعبئة جميع الحقول',
+      message: S.current.fillAll,
       context: context,
       backgroundColor: Colors.red,
       textColor: Colors.white,

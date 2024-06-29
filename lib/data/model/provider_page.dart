@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/data/model/details_provider.dart';
 import 'package:homeservice/view/screen/details_d.dart';
 import 'package:http/http.dart';
@@ -17,8 +17,8 @@ class provider_list extends StatefulWidget {
 Future<List<dynamic>> fetchservices() async {
   final response = await get(Uri.parse(
       'http://10.0.2.2:5000/serviceprovider/details/${Get.arguments}'));
-  print("inside getX2");
-  print(response.body);
+  //print("inside getX2");
+  //print(response.body);
   List resbody = jsonDecode(response.body);
   return resbody;
 }
@@ -86,9 +86,8 @@ class _provider_listState extends State<provider_list> {
                             //     size: 30, color: Colors.white),
                             IconButton(
                                 onPressed: () {
-                                  print(snapshot.data![index]['provider_id']);
                                   Get.to(
-                                      () => provider_details(
+                                      () => ProviderDetails(
                                           serviceID: widget.serviceID),
                                       arguments:
                                           //  List
@@ -114,7 +113,7 @@ class _provider_listState extends State<provider_list> {
                           ])));
             }
             return Center(
-              child: Text('لا يوجد مقدمي خدمات ',style: TextStyle(color: !Get.isDarkMode? Colors.black:Color.fromARGB(230, 255, 255, 255),fontSize: 20,fontFamily: 'Cairo'),),
+              child: Text(S.of(context).noProvider,style: TextStyle(color: !Get.isDarkMode? Colors.black:const Color.fromARGB(230, 255, 255, 255),fontSize: 20,fontFamily: 'Cairo'),),
             );
           }),
     );

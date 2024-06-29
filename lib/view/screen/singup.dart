@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/core/utilti/size_config.dart';
 import 'package:homeservice/generated/l10n.dart';
 import 'package:homeservice/view/screen/login.dart';
@@ -22,14 +22,42 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final formKey = GlobalKey<FormState>();
   Future<List> fetchservices() async {
-    print("inside getX");
     final response = await get(Uri.parse('http://10.0.2.2:5000/service'));
-    print("inside getX2");
     List resbody = jsonDecode(response.body);
-    print(resbody);
     return resbody;
   }
-
+@override
+  // void dispose() {
+  //   firstnameCotrlr.dispose();
+  //   secondnameCntrlr.dispose();
+  //   emailCotrlr.dispose();
+  //   passwordCotrlr.dispose();
+  //   phoneCotrlr.dispose();
+  //   addressContr.dispose();
+  //   serviceTypeContr.dispose();
+  //   cityContr.dispose();
+  //   super.dispose();
+  // }
+  @override
+  void initState() {
+    super.initState();
+    // Reset all text controllers
+    fullNameCotrlr.clear();
+    firstnameCotrlr.clear();
+    secondnameCntrlr.clear();
+    emailCotrlr.clear();
+    passwordCotrlr.clear();
+    phoneCotrlr.clear();
+    cityContr.clear();
+    userContr.clear();
+    serviceTypeContr.clear();
+    addressContr.clear();
+    s = S.current.PleaseChoose;
+    city = S.current.PleaseChoose;
+    yourService = S.current.PleaseChoose;
+    dateValue = null;
+    serviceid = null;
+  }
   @override
   Widget build(BuildContext context) {
     // String _emailErrorText;
@@ -56,372 +84,357 @@ class _RegisterState extends State<Register> {
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              child:  Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: Text(
+                    S.of(context).SingUp,
+                    // 'Register A New Acount',
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: blackColor,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "Cairo"),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Form(
+                    key: formKey,
+                    autovalidateMode: AutovalidateMode.disabled,
+                    child: Column(
                       children: [
-                        Center(
-                          child: Text(
-                            S.of(context).SingUp,
-                            // 'Register A New Acount',
-                            style: TextStyle(
-                                fontSize: 25,
+                        //first name
+                        FieldSignup(
+                          d: RegExp("[a-zA-Z\u0600-\u06FF]"),
+                          controller: firstnameCotrlr,
+                          nameField: "  ${S.of(context).firstname}",
+                          obscureText: false,
+                          keyboradType: TextInputType.name,
+                          validator: (value) {
+                            if (value!.isEmpty &&
+                                !(value.contains(RegExp(r'^[0-9]')))) {
+                              return S.of(context).erroeFirstName;
+                            }
+                            return null;
+                          },
+                        ),
+                        //second name
+                        FieldSignup(
+                          d: RegExp("[a-zA-Z\u0600-\u06FF]"),
+                          controller: secondnameCntrlr,
+                          nameField: "  ${S.of(context).secondname}",
+                          obscureText: false,
+                          keyboradType: TextInputType.name,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return S.of(context).errorSecondName;
+                            }
+                            return null;
+                          },
+                        ),
+                        //email
+                        FieldSignup(
+                          d: RegExp(r'.*'),
+                          controller: emailCotrlr,
+                          nameField: "  ${S.of(context).Email}",
+                          obscureText: false,
+                          keyboradType: TextInputType.text,
+                          validator: (value) {
+                            if (!GetUtils.isEmail(value!)) {
+                              return S.of(context).errorEmail;
+                            }
+                            return null;
+                          },
+                        ),
+                        //phone
+                        FieldSignup(
+                          d: RegExp("[0-9]"),
+                          maxLength: 10,
+                          controller: phoneCotrlr,
+                          nameField: "  ${S.of(context).phoneNumber}",
+                          obscureText: false,
+                          keyboradType: TextInputType.number,
+                          validator: (value) {
+                            if (value.toString().length != 10) {
+                              return S.of(context).errorPhone;
+                            }
+
+                            return null;
+                          },
+                        ),
+                        //pass
+                        FieldSignup(
+                          d: RegExp(r'.*'),
+                          controller: passwordCotrlr,
+                          nameField: "  ${S.of(context).password}",
+                          obscureText: true,
+                          keyboradType: TextInputType.visiblePassword,
+                          validator: (val) {
+                            return null;
+                          },
+                        ),
+
+                        const SizedBox(
+                          height: 9,
+                        ),
+                        //btn userType
+                        SizedBox(
+                          width: 296,
+                          height: 64,
+                          child: DropdownButtonFormField(
+                            validator: (value) {
+                              if (s == S.of(context).PleaseChoose) {
+                                return S.of(context).errorUserType;
+                              }
+                              return null;
+                            },
+                            value: s,
+                            items: userType
+                                .map((e) => DropdownMenuItem(
+                                      value: e,
+                                      child: Text(
+                                        e,
+                                        style: const TextStyle(
+                                          fontFamily: 'Cairo',
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                s = value!;
+                              });
+                              userContr.text = value!;
+                              //print(s);
+                            },
+                            decoration: InputDecoration(
+                              labelText: (S.of(context).createaccountaAs),
+                              labelStyle: TextStyle(
                                 color: blackColor,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Cairo"),
+                                fontFamily: 'Cairo',
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: mainColor),
+                                  borderRadius: BorderRadius.circular(30)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  borderSide: BorderSide(color: greyColor)),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  borderSide: BorderSide(color: mainColor)),
+                              // focusedBorder: OutlineInputBorder(
+                              //     borderRadius: BorderRadius.circular(30),
+                              //     borderSide: BorderSide(color: mainColor)),
+                              // enabledBorder: OutlineInputBorder(
+                              //     borderRadius: BorderRadius.circular(30),
+                              //     borderSide: BorderSide(color: greyColor)),
+                              // floatingLabelBehavior:OutlineInputBorder( borderSide: BorderSide(color: mainColor))
+                            ),
                           ),
                         ),
                         const SizedBox(
-                          height: 30,
+                          height: 9,
                         ),
-                        Form(
-                            key: formKey,
-                            autovalidateMode: AutovalidateMode.disabled,
-                            child: Column(
-                              children: [
-                                //first name
-                                FieldSignup(
-                                  d: RegExp("[a-zA-Z]"),
-                                  controller: firstnameCotrlr,
-                                  nameField: "  ${S.of(context).firstname}",
-                                  obscureText: false,
-                                  keyboradType: TextInputType.name,
-                                  validator: (value) {
-                                    if (value!.isEmpty &&
-                                        !(value.contains(RegExp(r'^[0-9]')))) {
-                                      return S.of(context).erroeFirstName;
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                //second name
-                                FieldSignup(
-                                  d: RegExp("[a-zA-Z]"),
-                                  controller: secondnameCntrlr,
-                                  nameField: "  ${S.of(context).secondname}",
-                                  obscureText: false,
-                                  keyboradType: TextInputType.name,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return S.of(context).errorSecondName;
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                //email
-                                FieldSignup(
-                                  d: RegExp(r'.*'),
-                                  controller: emailCotrlr,
-                                  nameField: "  ${S.of(context).Email}",
-                                  obscureText: false,
-                                  keyboradType: TextInputType.text,
-                                  validator: (value) {
-                                    if (!GetUtils.isEmail(value!)) {
-                                      return S.of(context).errorEmail;
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                //phone
-                                FieldSignup(
-                                  d: RegExp("[0-9]"),
-                                  maxLength: 10,
-                                  controller: phoneCotrlr,
-                                  nameField: "  ${S.of(context).phoneNumber}",
-                                  obscureText: false,
-                                  keyboradType: TextInputType.number,
-                                  validator: (value) {
-                                    if (value.toString().length != 10) {
-                                      return S.of(context).errorPhone;
-                                    }
-
-                                    return null;
-                                  },
-                                ),
-                                //pass
-                                FieldSignup(
-                                  d: RegExp(r'.*'),
-                                  controller: passwordCotrlr,
-                                  nameField: "  ${S.of(context).password}",
-                                  obscureText: true,
-                                  keyboradType: TextInputType.visiblePassword,
-                                  validator: (val) {},
-                                ),
-
-                                const SizedBox(
-                                  height: 9,
-                                ),
-                                //btn userType
-                                SizedBox(
-                                  width: 296,
-                                  height: 64,
-                                  child: DropdownButtonFormField(
-                                    validator: (value) {
-                                      if (s == S.of(context).PleaseChoose) {
-                                        return S.of(context).errorUserType;
+                        //btn serviceType
+                        S.of(context).serviceProvider == s
+                            ? SizedBox(
+                                width: 296,
+                                height: 64,
+                                child: FutureBuilder(
+                                    future: fetchservices(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                              color: mainColor),
+                                        );
                                       }
-                                      return null;
-                                    },
-                                    value: s,
-                                    items: userType
-                                        .map((e) => DropdownMenuItem(
-                                              value: e,
-                                              child: Text(
-                                                e,
-                                                style: const TextStyle(
-                                                  fontFamily: 'Cairo',
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                            ))
-                                        .toList(),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        s = value!;
-                                      });
-                                      userContr.text = value!;
-                                      print(s);
-                                    },
-                                    decoration: InputDecoration(
-                                      labelText:
-                                          (S.of(context).createaccountaAs),
-                                          labelStyle: TextStyle(
-                                          color: blackColor,
-                                          fontFamily: 'Cairo',
-                                        ),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: mainColor),
-                                          borderRadius:
-                                              BorderRadius.circular(30)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide:
-                                              BorderSide(color: greyColor)),
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide:
-                                              BorderSide(color: mainColor)),
-                                      // focusedBorder: OutlineInputBorder(
-                                      //     borderRadius: BorderRadius.circular(30),
-                                      //     borderSide: BorderSide(color: mainColor)),
-                                      // enabledBorder: OutlineInputBorder(
-                                      //     borderRadius: BorderRadius.circular(30),
-                                      //     borderSide: BorderSide(color: greyColor)),
-                                      // floatingLabelBehavior:OutlineInputBorder( borderSide: BorderSide(color: mainColor))
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 9,
-                                ),
-                                //btn serviceType
-                                S.of(context).serviceProvider == s
-                                    ? SizedBox(
-                                        width: 296,
-                                        height: 64,
-                                        child: FutureBuilder(
-                  future: fetchservices(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(color: mainColor),
-                      );
-                    }
-                    List<String> services = [(S.of(context).PleaseChoose)];
-                    for (var i = 0; i < snapshot.data!.length; i++) {
-                      print(snapshot.data![i]["servcie_name"]);
-                      services
-                          .add(snapshot.data![i]['servcie_name'].toString());
-                    }
-                    return DropdownButtonFormField(
-                                              validator: (value) {
-                                                if (yourService ==
-                                                    S.of(context).PleaseChoose) {
-                                                  return S
-                                                      .of(context)
-                                                      .errorServiceType;
-                                                }
-                                                return null;
-                                              },
-                                              value: yourService,
-                                              items: services
-                                                  .map((e) => DropdownMenuItem(
-                                                        value: e,
-                                                        child: Text(e,
-                                                            style: const TextStyle(
-                                                                fontFamily: 'Cairo',
-                                                                fontSize: 16)),
-                                                      ))
-                                                  .toList(),
-                                              onChanged: (value) {
-                                                yourService = value;
-                                                serviceTypeContr.text = value!;
-                                                serviceid =
-                                                    services.indexOf(value) + 1;
-                                                // snapshot.data![1]['service'];
-                                                print(serviceid);
-                                              },
-                                              decoration: InputDecoration(
-                                                labelText:
-                                                    S.of(context).serviceType,
-                                                    labelStyle: TextStyle(
-                                          color: blackColor,
-                                          fontFamily: 'Cairo',
-                                        ),
-                                                border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(30),
-                                                    borderSide: BorderSide(
-                                                        color: mainColor)),
-                                                focusedBorder: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(30),
-                                                    borderSide: BorderSide(
-                                                        color: mainColor)),
-                                                enabledBorder: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(30),
-                                                    borderSide: BorderSide(
-                                                        color: greyColor)),
-                                              ),
-                                            );
+                                      List<String> services = [
+                                        (S.of(context).PleaseChoose)
+                                      ];
+                                      for (var i = 0;
+                                          i < snapshot.data!.length;
+                                          i++) {
+                                        services.add(snapshot.data![i]
+                                                ['servcie_name']
+                                            .toString());
+                                      }
+                                      return DropdownButtonFormField(
+                                        validator: (value) {
+                                          if (yourService ==
+                                              S.of(context).PleaseChoose) {
+                                            return S
+                                                .of(context)
+                                                .errorServiceType;
                                           }
-                                        ))
-                                    : Container(),
-                                const SizedBox(
-                                  height: 9,
-                                ),
-                                SizedBox(
-                                    width: 296,
-                                    height: 64,
-                                    child: DropdownButtonFormField(
-                                      validator: (value) {
-                                        if (city ==
-                                            S.of(context).PleaseChoose) {
-                                          return S.of(context).errorCity;
-                                        }
-                                        return null;
-                                      },
-                                      value: city,
-                                      items: cities
-                                          .map((e) => DropdownMenuItem(
-                                                value: e,
-                                                child: Text(
-                                                  e,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Cairo',
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ))
-                                          .toList(),
-                                      onChanged: (value) {
-                                        city = value!;
-                                        cityContr.text = value;
-                                      },
-                                      decoration: InputDecoration(
-                                        labelText: S.of(context).city,
-                                        labelStyle: TextStyle(
-                                          color: blackColor,
-                                          fontFamily: 'Cairo',
+                                          return null;
+                                        },
+                                        value: yourService,
+                                        items: services
+                                            .map((e) => DropdownMenuItem(
+                                                  value: e,
+                                                  child: Text(e,
+                                                      style: const TextStyle(
+                                                          fontFamily: 'Cairo',
+                                                          fontSize: 16)),
+                                                ))
+                                            .toList(),
+                                        onChanged: (value) {
+                                          yourService = value;
+                                          serviceTypeContr.text = value!;
+                                          serviceid =
+                                              services.indexOf(value) + 1;
+                                        },
+                                        decoration: InputDecoration(
+                                          labelText: S.of(context).serviceType,
+                                          labelStyle: TextStyle(
+                                            color: blackColor,
+                                            fontFamily: 'Cairo',
+                                          ),
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              borderSide:
+                                                  BorderSide(color: mainColor)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              borderSide:
+                                                  BorderSide(color: mainColor)),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              borderSide:
+                                                  BorderSide(color: greyColor)),
                                         ),
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            borderSide:
-                                                BorderSide(color: mainColor)),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            borderSide:
-                                                BorderSide(color: mainColor)),
-                                        enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            borderSide:
-                                                BorderSide(color: greyColor)),
-                                      ),
-                                    )),
-                                const SizedBox(
-                                  height: 8,
+                                      );
+                                    }))
+                            : Container(),
+                        const SizedBox(
+                          height: 9,
+                        ),
+                        SizedBox(
+                            width: 296,
+                            height: 64,
+                            child: DropdownButtonFormField(
+                              validator: (value) {
+                                if (city == S.of(context).PleaseChoose) {
+                                  return S.of(context).errorCity;
+                                }
+                                return null;
+                              },
+                              value: city,
+                              items: cities
+                                  .map((e) => DropdownMenuItem(
+                                        value: e,
+                                        child: Text(
+                                          e,
+                                          style: const TextStyle(
+                                            fontFamily: 'Cairo',
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
+                              onChanged: (value) {
+                                city = value!;
+                                cityContr.text = value;
+                              },
+                              decoration: InputDecoration(
+                                labelText: S.of(context).city,
+                                labelStyle: TextStyle(
+                                  color: blackColor,
+                                  fontFamily: 'Cairo',
                                 ),
-                                FieldSignup(
-                                  d: RegExp(r'.*'),
-                                  controller: addressContr,
-                                  nameField: "  ${S.of(context).address}",
-                                  obscureText: false,
-                                  keyboradType: TextInputType.text,
-                                  validator: (value) {
-                                    if (value! == "" || value.length < 4) {
-                                      return S.of(context).errorAddress;
-                                    }
-                                    return null;
-                                  },
-                                  maxLength: 50,
-                                ),
-                                const SizedBox(
-                                  height: 0,
-                                ),
-                                Center(
-                                  child:
-                                      TextButton(
-                                    style: TextButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        fixedSize: const Size(359.0, 58.0),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(18.0))),
-                                    onPressed: () {
-                                      singup(context, 0, formKey);
-                                    },
-                                    child: Text(
-                                      S.of(context).register,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontFamily: "Cairo"),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide: BorderSide(color: mainColor)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide: BorderSide(color: mainColor)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide: BorderSide(color: greyColor)),
+                              ),
                             )),
                         const SizedBox(
-                          height: 20,
+                          height: 8,
+                        ),
+                        FieldSignup(
+                          d: RegExp(r'.*'),
+                          controller: addressContr,
+                          nameField: "  ${S.of(context).address}",
+                          obscureText: false,
+                          keyboradType: TextInputType.text,
+                          validator: (value) {
+                            if (value! == "" || value.length < 4) {
+                              return S.of(context).errorAddress;
+                            }
+                            return null;
+                          },
+                          maxLength: 50,
+                        ),
+                        const SizedBox(
+                          height: 0,
                         ),
                         Center(
-                          child: InkWell(
-                            onTap: () {
-                              Get.to(const login());
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                                backgroundColor: mainColor,
+                                fixedSize: const Size(359.0, 58.0),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0))),
+                            onPressed: () {
+                              singup(context, 0, formKey);
                             },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  S.of(context).alreadyhaveaccount,
-                                  style: const TextStyle(fontFamily: "Cairo"),
-                                ),
-                                InkWell(
-                                    onTap: () {
-                                      Get.to(() => const login());
-                                    },
-                                    child: Text(
-                                      " ${S.of(context).login}",
-                                      style: TextStyle(
-                                          color: mainColor,
-                                          fontFamily: "Cairo"),
-                                    ))
-                              ],
+                            child: Text(
+                              S.of(context).register,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontFamily: "Cairo"),
                             ),
                           ),
                         ),
                       ],
-                    )
-                  
-            ),
+                    )),
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: InkWell(
+                    onTap: () {
+                      Get.to(const login());
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          S.of(context).alreadyhaveaccount,
+                          style: const TextStyle(fontFamily: "Cairo"),
+                        ),
+                        InkWell(
+                            onTap: () {
+                              Get.to(() => const login());
+                            },
+                            child: Text(
+                              " ${S.of(context).login}",
+                              style: TextStyle(
+                                  color: mainColor, fontFamily: "Cairo"),
+                            ))
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            )),
           ),
         ),
       ),
@@ -480,7 +493,7 @@ class FieldSignup extends StatelessWidget {
               style: TextStyle(
                   color: !Get.isDarkMode
                       ? Colors.black
-                      : Color.fromARGB(230, 255, 255, 255),
+                      : const Color.fromARGB(230, 255, 255, 255),
                   fontFamily: 'Cairo',
                   fontSize: 13)),
         ),

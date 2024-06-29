@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:homeservice/core/function/snakbar.dart';
 import 'package:homeservice/core/function/user_controller.dart';
 import 'package:homeservice/view/screen/login.dart';
 import 'package:http/http.dart';
 
-import '../../../core/utilti/Color.dart';
+import '../../../core/utilti/color.dart';
 import '../../../generated/l10n.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -178,37 +179,21 @@ class _ResetPasswordState extends State<ChangePassword> {
                           "password": controllerNewPass.text,
                           "userType": "${controller.userType}",
                         }));
-                    print(response.statusCode);
+                    //print(response.statusCode);
                     if (response.statusCode == 404) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text(
-                          "يجب ادخال رمز صالح",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        backgroundColor: Colors.red,
-                      ));
+                      Snackbar (message: S.current.errorCode, context: context, backgroundColor: Colors.red , textColor: Colors.white) ;
                     }
                     if (response.statusCode == 200) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("تم تغيير كلمة المرور بنجاح",
-                            style: TextStyle(color: Colors.white)),
-                        backgroundColor: Colors.green,
-                      ));
+                      Snackbar (message: S.current.changePassSuccess, context: context, backgroundColor: Colors.green , textColor: Colors.white) ;
                       Get.to(() => const login());
                     } else {
                       final Map<String, dynamic> responseData =
                           json.decode(response.body);
                       final String errorMessage = responseData['error'];
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(
-                          errorMessage,
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                        backgroundColor: Colors.red,
-                      ));
+                      Snackbar (message: errorMessage, context: context, backgroundColor: Colors.red , textColor: Colors.white) ;
                     }
                   } catch (e) {
-                    print(e);
+                    Snackbar( message: S.current.errorOccured, context: context, backgroundColor: Colors.red , textColor: Colors.white) ;
                   }
                 },
                 child: Text(S.of(context).confirm))

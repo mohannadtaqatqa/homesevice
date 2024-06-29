@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/utilti/Color.dart';
+import '../../core/utilti/color.dart';
 
 class Language extends StatefulWidget {
   const Language({super.key});

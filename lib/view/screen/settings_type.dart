@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:homeservice/core/utilti/Color.dart';
+import 'package:homeservice/core/utilti/color.dart';
 import 'package:homeservice/view/screen/change_settings/change_email.dart';
 import 'package:homeservice/view/screen/change_settings/change_pass.dart';
 import 'package:homeservice/view/screen/lang.dart';
 import 'package:homeservice/view/screen/person_settings.dart';
+
+import '../../generated/l10n.dart';
 
 class SettingType extends StatelessWidget {
   const SettingType({super.key});
@@ -18,54 +20,54 @@ class SettingType extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "الإعدادات الخاصة",
-                style: TextStyle(fontSize: 30),
+                S.of(context).settingsPrivate,
+                style: const TextStyle(fontSize: 30),
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               // ElevatedButton(onPressed: () {Get.to(()=> Mysetting(address: data['address']!, firstName: data['firstName']!, lastName: data['lastName']!, email: data['email']!, phoneNumber: data['phone']!, city: data['city']!,));}, child: const Text("الاعدادات الشخصية",style: TextStyle(fontSize: 20),),style: ButtonStyle(
               ElevatedButton(
                 onPressed: () {
-                  Get.to(() => Mysetting());
+                  Get.to(() =>const Mysetting());
                 },
-                child: Text(
-                  "الاعدادات الشخصية",
-                  style: TextStyle(fontSize: 16),
-                ),
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(mainColor),
                     foregroundColor: MaterialStateProperty.all(whiteColor),
                     fixedSize: MaterialStateProperty.all(const Size(200, 50))),
+                child: Text(
+                  S.of(context).PersonalSettings,
+                  style: const TextStyle(fontSize: 16),
+                ),
               ),
 
               // backgroundColor: MaterialStateProperty.all(mainColor),fo   regroundColor: MaterialStateProperty.all(whiteColor),fixedSize: MaterialStateProperty.all(const Size(200, 50))),),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {Get.to(()=>ChangeEmail());},
-                child: const Text(
-                  "تغيير البريد الالكتروني",
-                  style: TextStyle(fontSize: 16),
-                ),
+                onPressed: () {Get.to(()=>const ChangeEmail());},
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(mainColor),
                     foregroundColor: MaterialStateProperty.all(whiteColor),
                     fixedSize: MaterialStateProperty.all(const Size(200, 50))),
+                child:  Text(
+                  S.of(context).changeEmail,
+                  style: const TextStyle(fontSize: 16),
+                ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  Get.to(()=>ChangePassword() );
+                  Get.to(()=>const ChangePassword() );
                 },
-                child: const Text(
-                  "تغيير كلمة المرور",
-                  style: TextStyle(fontSize: 16),
-                ),
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(mainColor),
                     foregroundColor: MaterialStateProperty.all(whiteColor),
                     fixedSize: MaterialStateProperty.all(const Size(200, 50))),
+                child:  Text(
+                  S.of(context).changePass,
+                  style:const TextStyle(fontSize: 16),
+                ),
               ),
-              SizedBox(height: 20),
-              Language()
+              const SizedBox(height: 20),
+              const Language()
             ],
           ),
         ),
